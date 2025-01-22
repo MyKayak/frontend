@@ -19,28 +19,35 @@ export interface Competitor{
  * @constructor
  */
 const ResultsTable = (competitors: Competitor[]) => {
+    console.log(competitors.competitors)
+    let comps = []
+    for (let foo of competitors.competitors){
+        for (let bar of foo){
+            comps.push(bar);
+        }
+    }
     return (
         <div style={{padding: "50px"}} className="mx-auto">
             <div className="overflow-x-auto">
-                <table className="table table-zebra">
-                    {/* head */}
-                    <thead>
-                    <tr>
-                        <th>Pos</th>
-                        <th>Acqua</th>
-                        <th>Concorrente</th>
-                        <th>Anno</th>
-                        <th>Società</th>
-                        <th>Tempo</th>
-                        <th>Distacco</th>
-                        <th>Esito</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-
-                        competitors.competitors.map(athlete => (
-                                <tr key={athlete.PlaName + athlete.PlaSurname}>
+                {
+                    competitors.competitors.map((heat) => (
+                        <table className="table table-zebra">
+                            {/* head */}
+                            <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Acqua</th>
+                                <th>Concorrente</th>
+                                <th>Anno</th>
+                                <th>Società</th>
+                                <th>Tempo</th>
+                                <th>Distacco</th>
+                                <th>Esito</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {heat.map(athlete => (
+                                <tr key={athlete.PlaSurname}>
                                     <th>{athlete.PlaCls}</th>
                                     <th>{athlete.PlaLane}</th>
                                     <th>{athlete.PlaSurname} {athlete.PlaName}</th>
@@ -50,11 +57,13 @@ const ResultsTable = (competitors: Competitor[]) => {
                                     <th>{athlete.Gap}</th>
                                     <th>{athlete.MemQual}</th>
                                 </tr>
-                            )
+                            )}
+                            </tbody>
+                        </table>
                         )
-                    }
-                    </tbody>
-                </table>
+                    ))
+                }
+
             </div>
         </div>
     )
