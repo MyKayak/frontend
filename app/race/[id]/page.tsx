@@ -33,13 +33,16 @@ export default async function Page({ params }) {
     const id = (await params).id;
 
     try {
-        const data = await fetchData('https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/result/CanoaCastelGandolfoRM04082024_92/KY/U2M/0403/01/001');
+        const url_data = await fetchData(baseURL + id);
+        console.log(url_data);
+        console.log('https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/result/' + id + '/KY/' + url_data.data[0].e[0].c0 + "/" + url_data.data[0].e[0].c1 + "/" + url_data.data[0].e[0].c2.substring(1) + "/" + url_data.data[0].e[0].c3); // Adesso funziona meglio, preso l'ID della gara da automaticamente la prima.
+        const data = await fetchData('https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/result/' + id + '/KY/' + url_data.data[0].e[0].c0 + "/" + url_data.data[0].e[0].c1 + "/" + url_data.data[0].e[0].c2.substring(1) + "/" + url_data.data[0].e[0].c3); // prima parte fissa, poi result o startlist, poi ... , poi KY (fisso per kayak), c0, c1, c2 (troncato) e c3.
         const heats = processHeatsData(data.data.data); // Assuming a separate function to process heats data
 
         return (
             <div>
                 {heats.map((heat) => (
-                    <ResultsTable competitors={heat} /> // Assuming ResultsTable handles key prop
+                    <ResultsTable key={heat[0].b} competitors={heat} /> // Assuming ResultsTable handles key prop
                 ))}
             </div>
         );
@@ -50,6 +53,10 @@ export default async function Page({ params }) {
     }
 }
 
+/**
+ * Prende i dati della ficr e lo trasforma in un formato utilizzablile
+ * @param data l'oggetto restituito
+ */
 function processHeatsData(data) {
     let heats: Competitor[][] = [];
 

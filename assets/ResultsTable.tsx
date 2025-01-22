@@ -13,9 +13,14 @@ export interface Competitor{
     Gap: string;
 }
 
+/**
+ * Rappresenta una tabella con dei competitori di una batteria
+ * @param competitors un'array contente tutti i competitori della batteria da rappresentare
+ * @constructor
+ */
 const ResultsTable = (competitors: Competitor[]) => {
     return (
-        <div style={{padding: "50px"}}>
+        <div style={{padding: "50px"}} className="mx-auto">
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
                     {/* head */}
