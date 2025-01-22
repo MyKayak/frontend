@@ -18,14 +18,7 @@ export interface Competitor{
  * @param competitors un'array contente tutti i competitori della batteria da rappresentare
  * @constructor
  */
-const ResultsTable = (competitors: Competitor[]) => {
-    console.log(competitors.competitors)
-    let comps = []
-    for (let foo of competitors.competitors){
-        for (let bar of foo){
-            comps.push(bar);
-        }
-    }
+const ResultsTable = (competitors) => {
     return (
         <div style={{padding: "50px"}} className="mx-auto">
             <div className="overflow-x-auto">
@@ -33,7 +26,7 @@ const ResultsTable = (competitors: Competitor[]) => {
                     competitors.competitors.map((heat) => (
                         <table className="table table-zebra">
                             {/* head */}
-                            <thead>
+                            <thead key={heat.b}>
                             <tr>
                                 <th>Pos</th>
                                 <th>Acqua</th>
@@ -46,7 +39,7 @@ const ResultsTable = (competitors: Competitor[]) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {heat.map(athlete => (
+                            {heat.map((athlete) => (
                                 <tr key={athlete.PlaSurname}>
                                     <th>{athlete.PlaCls}</th>
                                     <th>{athlete.PlaLane}</th>
@@ -57,11 +50,11 @@ const ResultsTable = (competitors: Competitor[]) => {
                                     <th>{athlete.Gap}</th>
                                     <th>{athlete.MemQual}</th>
                                 </tr>
-                            )}
+                            ))}
                             </tbody>
                         </table>
                         )
-                    ))
+                    )
                 }
 
             </div>
