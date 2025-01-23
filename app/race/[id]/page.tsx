@@ -49,26 +49,36 @@ export default async function Page({ params }) {
 
         let competitors = []
 
+        // tipo gara = d1_it
+        // categoria = d3_it
+        // distanza = d_it
+
         for (let foo of url_data.data){
             for (let bar of foo.e){
+                console.log(bar)
                 const data = await fetchData('https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/result/' + id + '/KY/' + bar.c0 + "/" + bar.c1 + "/" + bar.c2.substring(1) + "/" + bar.c3);
+                let thing = {data : "", raceName : ""}
                 if (data !== undefined){
-                    competitors.push(processHeatsData(data.data.data))
+                    thing.data = processHeatsData(data.data.data);
+                    thing.raceName = bar.d1_it + " " + bar.d3_it + " " + bar.d_it;
+                    competitors.push(thing)
                 }
             }
         }
 
         let key = 0
 
+        console.log(competitors[0])
+
         return (<div>{
                 competitors.map((race) => (
                     <div key={key++} className="collapse collapse-arrow bg-base-200">
                         <input type="radio" name="my-accordion-2" defaultChecked/>
-                        <div className="collapse-title text-xl font-medium">Click to open this one and close
-                            others
+                        <div className="collapse-title text-xl font-medium">
+                            {race.raceName}
                         </div>
                         <div className="collapse-content">
-                            <ResultsTable competitors={race}/>
+                            <ResultsTable competitors={race.data}/>
                         </div>
                     </div>
                 ))}

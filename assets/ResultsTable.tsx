@@ -19,6 +19,7 @@ export interface Competitor{
  * @constructor
  */
 const ResultsTable = (competitors) => {
+    let key = 0;
     return (
         <div style={{padding: "50px"}} className="mx-auto">
             <div className="overflow-x-auto">
@@ -26,7 +27,7 @@ const ResultsTable = (competitors) => {
                     competitors.competitors.map((heat) => (
                         <table className="table table-zebra">
                             {/* head */}
-                            <thead key={heat.b}>
+                            <thead key={key++}>
                             <tr>
                                 <th>Pos</th>
                                 <th>Acqua</th>
@@ -40,7 +41,7 @@ const ResultsTable = (competitors) => {
                             </thead>
                             <tbody>
                             {heat.map((athlete) => (
-                                <tr key={athlete.PlaSurname}>
+                                <tr key={key++}>
                                     <th>{athlete.PlaCls}</th>
                                     <th>{athlete.PlaLane}</th>
                                     <th>{athlete.PlaSurname} {athlete.PlaName}</th>
