@@ -35,6 +35,7 @@ export interface Competitor{
 
 export default async function Page({ params }) {
     const id = (await params).id;
+    let races = [];
 
     try {
         const url_data = await fetchData(baseURL + id);
