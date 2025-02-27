@@ -35,14 +35,13 @@ export interface Competitor{
 
 export default async function Page({ params }) {
     const id = (await params).id;
-    let races = [];
+    const races = [];
 
     try {
         const url_data = await fetchData(baseURL + id);
 
-        // Prepare race metadata without fetching results
-        for (let foo of url_data.data) {
-            for (let bar of foo.e) {
+        for (const foo of url_data.data) {
+            for (const bar of foo.e) {
                 races.push({
                     raceName: bar.d1_it + " " + bar.d3_it + " " + bar.d_it,
                     params: {

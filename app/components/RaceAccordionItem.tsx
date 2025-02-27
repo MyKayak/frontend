@@ -13,7 +13,7 @@ interface RaceAccordionItemProps {
             c2: string;
             c3: string;
         };
-        data: any;
+        data: unknown;
     };
     index: number;
 }

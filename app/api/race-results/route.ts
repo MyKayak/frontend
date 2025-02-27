@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 
 function processHeatsData(data) {
-    let heats = [];
+    const heats = [];
     
-    for (let athlete of data) {
+    for (const athlete of data) {
         if (heats[athlete.b - 1] === undefined) {
             heats[athlete.b - 1] = [];
         }
@@ -27,7 +27,7 @@ export async function GET(request) {
         const response = await fetch(url);
         const data = await response.json();
         return NextResponse.json(processHeatsData(data.data.data));
-    } catch (error) {
+    } catch (err) {
         return NextResponse.json({ error: 'Failed to fetch race data' }, { status: 500 });
     }
 } 
