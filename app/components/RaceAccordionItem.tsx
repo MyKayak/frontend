@@ -13,12 +13,12 @@ interface RaceAccordionItemProps {
             c2: string;
             c3: string;
         };
-        data: any;
+        data: unknown;
     };
     index: number;
 }
 
-export default function RaceAccordionItem({ race, index }: RaceAccordionItemProps) {
+export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
 
