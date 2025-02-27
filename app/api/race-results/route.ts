@@ -27,7 +27,7 @@ export async function GET(request) {
         const response = await fetch(url);
         const data = await response.json();
         return NextResponse.json(processHeatsData(data.data.data));
-    } catch (_) {
+    } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch race data' }, { status: 500 });
     }
 } 

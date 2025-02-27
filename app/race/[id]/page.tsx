@@ -1,4 +1,3 @@
-import ResultsTable from "@/assets/ResultsTable";
 import RaceAccordionItem from "../../components/RaceAccordionItem";
 
 const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/"
@@ -31,7 +30,6 @@ export interface Competitor{
     MemQual: string;
     Gap: string;
 }
-
 
 export default async function Page({ params }) {
     const id = (await params).id;
