@@ -71,6 +71,7 @@ export default async function Page({ params }) {
  * Prende i dati della ficr e lo trasforma in un formato utilizzablile
  * @param data l'oggetto restituito
  */
+/*
 function processHeatsData(data) {
     const heats: Competitor[][] = [];
 
@@ -82,5 +83,5 @@ function processHeatsData(data) {
     }
 
     return heats;
-}
+}*/
 //https://apicanoavelocita.ficr.it/CAV/mpcache-20/get/startlist/CanoaPADOVA27102024_79/KY/SEM/0404/05/001
