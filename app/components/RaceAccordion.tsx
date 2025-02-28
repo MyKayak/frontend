@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import ResultsTable from "@/assets/ResultsTable";
+import { Competitor } from '@/app/race/[id]/page';
 
 interface RaceProps {
     race: {
@@ -18,7 +19,7 @@ interface RaceProps {
 }
 
 export default function RaceAccordion({ race }: RaceProps) {
-    const [data, setData] = useState<null | unknown[][]>(null);
+    const [data, setData] = useState<Competitor[][] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
     const fetchRaceData = async () => {
@@ -27,7 +28,7 @@ export default function RaceAccordion({ race }: RaceProps) {
             const response = await fetch(
                 `/api/race-results?${new URLSearchParams(race.params)}`
             );
-            const responseData = await response.json();
+            const responseData = await response.json() as Competitor[][];
             setData(responseData);
         } catch (error) {
             console.error('Error fetching race data:', error instanceof Error ? error.message : error);
