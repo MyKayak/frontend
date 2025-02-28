@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import ResultsTable from "@/assets/ResultsTable";
+import { Competitor } from '@/app/race/[id]/page';
 
 interface RaceAccordionItemProps {
     race: {
@@ -19,19 +20,19 @@ interface RaceAccordionItemProps {
 }
 
 export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<Competitor[][] | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const fetchRaceData = async () => {
         setLoading(true);
         try {
             const response = await fetch(
-                `/api/race-results?` + new URLSearchParams(race.params)
+                `/api/race-results?${new URLSearchParams(race.params)}`
             );
-            const data = await response.json();
-            setData(data);
+            const responseData = await response.json();
+            setData(responseData);
         } catch (error) {
-            console.error('Error fetching race data:', error);
+            console.error('Error fetching race data:', error instanceof Error ? error.message : error);
         }
         setLoading(false);
     };
@@ -43,7 +44,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                 name="my-accordion-2"
                 onChange={(e) => {
                     if (e.target.checked && !data) {
-                        fetchRaceData();
+                        void fetchRaceData();
                     }
                 }}
             />

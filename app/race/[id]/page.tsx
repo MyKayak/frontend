@@ -1,12 +1,23 @@
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import RaceAccordionItem from "../../components/RaceAccordionItem";
 
-const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/"
+const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/";
 
-/**
- * chiama l'api e restituisce la risposta
- * @param url l'url dell'API da chiamare per ottenere i dati di una specifica batteria.
- */
-async function fetchData(url: string) {
+interface ApiResponse {
+    data: {
+        e: {
+            d1_it: string;
+            d3_it: string;
+            d_it: string;
+            c0: string;
+            c1: string;
+            c2: string;
+            c3: string;
+        }[];
+    }[];
+}
+
+async function fetchData(url: string): Promise<ApiResponse> {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -15,10 +26,11 @@ async function fetchData(url: string) {
         return await response.json();
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
+        throw error;
     }
 }
 
-export interface Competitor{
+export interface Competitor {
     b: number;
     PlaCls: number;
     PlaLane: number;
@@ -31,8 +43,8 @@ export interface Competitor{
     Gap: string;
 }
 
-export default async function Page({ params }) {
-    const id = (await params).id;
+export default async function Page({ params }: { params: Params }) {
+    const id = params.id;
     const races = [];
 
     try {
@@ -41,7 +53,7 @@ export default async function Page({ params }) {
         for (const foo of url_data.data) {
             for (const bar of foo.e) {
                 races.push({
-                    raceName: bar.d1_it + " " + bar.d3_it + " " + bar.d_it,
+                    raceName: `${bar.d1_it} ${bar.d3_it} ${bar.d_it}`,
                     params: {
                         id,
                         c0: bar.c0,
