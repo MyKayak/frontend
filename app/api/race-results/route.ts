@@ -1,11 +1,27 @@
 import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
-interface Athlete {
+interface Competitor {
     b: number;
+    PlaCls: number;
+    PlaLane: number;
+    TeamDescrIta: string;
+    PlaSurname: string;
+    PlaName: string;
+    PlaBirth: string;
+    MemPrest: string;
+    MemQual: string;
+    Gap: string;
 }
 
-function processHeatsData(data: Athlete[]) {
-    const heats: Athlete[][] = [];
+interface ApiResponse {
+    data: {
+        data: Competitor[];
+    };
+}
+
+function processHeatsData(data: Competitor[]): Competitor[][] {
+    const heats: Competitor[][] = [];
     
     for (const athlete of data) {
         if (heats[athlete.b - 1] === undefined) {
@@ -17,7 +33,7 @@ function processHeatsData(data: Athlete[]) {
     return heats;
 }
 
-export async function GET(request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const c0 = searchParams.get('c0');
@@ -29,10 +45,10 @@ export async function GET(request) {
     
     try {
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await response.json() as ApiResponse;
         return NextResponse.json(processHeatsData(data.data.data));
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('API Error:', error instanceof Error ? error.message : error);
         return NextResponse.json({ error: 'Failed to fetch race data' }, { status: 500 });
     }
 } 
