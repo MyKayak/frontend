@@ -42,14 +42,25 @@ export interface Competitor {
     Gap: string;
 }
 
-type PageProps = {
-    params: { id: string };
-    searchParams: { [key: string]: string | string[] | undefined };
+interface Race {
+    raceName: string;
+    params: {
+        id: string;
+        c0: string;
+        c1: string;
+        c2: string;
+        c3: string;
+    };
+    data: null;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({
+    params,
+}: {
+    params: { id: string };
+}) {
     const id = params.id;
-    const races = [];
+    const races: Race[] = [];
 
     try {
         const url_data = await fetchData(baseURL + id);
