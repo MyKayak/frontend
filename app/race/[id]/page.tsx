@@ -42,10 +42,9 @@ export interface Competitor {
     Gap: string;
 }
 
-interface PageProps {
-    params: {
-        id: string;
-    };
+type PageProps = {
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default async function Page({ params }: PageProps) {

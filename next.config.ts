@@ -10,12 +10,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-// next.config.js
-module.exports = {
-  eslint: {
-    // Disable ESLint during the build process
-    ignoreDuringBuilds: true,
-  },
-};
-
 export default nextConfig;
