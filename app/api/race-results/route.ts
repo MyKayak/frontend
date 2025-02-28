@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
-interface Athlete{
-    b:number;
+interface Athlete {
+    b: number;
 }
 
-function processHeatsData(data:Athlete[]) {
-    const heats = [];
+function processHeatsData(data: Athlete[]) {
+    const heats: Athlete[][] = [];
     
     for (const athlete of data) {
         if (heats[athlete.b - 1] === undefined) {
