@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-function processHeatsData(data) {
+interface Athlete{
+    b:number;
+}
+
+function processHeatsData(data:Athlete[]) {
     const heats = [];
     
     for (const athlete of data) {
