@@ -1,4 +1,3 @@
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import RaceAccordionItem from "../../components/RaceAccordionItem";
 
 const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/";
@@ -43,7 +42,13 @@ export interface Competitor {
     Gap: string;
 }
 
-export default async function Page({ params }: { params: Params }) {
+interface PageProps {
+    params: {
+        id: string;
+    };
+}
+
+export default async function Page({ params }: PageProps) {
     const id = params.id;
     const races = [];
 
