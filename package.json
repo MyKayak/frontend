@@ -15,6 +15,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@catppuccin/tailwindcss": "^0.1.6",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",

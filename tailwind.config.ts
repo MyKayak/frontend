@@ -33,5 +33,5 @@ export default {
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [ require('daisyui')]
+  plugins: [ require('daisyui'), require("@catppuccin/tailwindcss")]
 } satisfies Config;
