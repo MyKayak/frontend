@@ -32,39 +32,39 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
     }
 
     return (
-        <div className="mx-auto w-10/12 overflow-x-scroll">
+        <div className="mx-auto self-center w-full p-1 overflow-x-hidden">
             <div className="overflow-x-scroll">
                 {competitors.map((heat, index) => (
                     <table key={`heat-${index}`} className="table table-zebra mx-auto">
                         <thead>
                             <tr>
-                                <th>Pos <br></br>(acqua)</th>
-                                <th>Concorrente</th>
-                                <th>Società</th>
-                                <th>Tempo <br></br>(distacco)</th>
-                                <th>Esito</th>
+                                <th className="px-2">Pos <br></br>(acqua)</th>
+                                <th className="px-2">Concorrente</th>
+                                <th className="px-2">Società</th>
+                                <th className="px-2">Tempo <br></br>(distacco)</th>
+                                {heat[0].MemQual != "" ? <th>Esito</th> : ""}
                             </tr>
                         </thead>
                         <tbody>
                             {heat.map((athlete) => (
                                 <tr key={key++}>
-                                    <th>
+                                    <th className="px-2">
                                         {athlete.PlaCls}
                                         <br></br>
                                         ({athlete.PlaLane})
                                     </th>
-                                    <th className={"scroll"}>
+                                    <th className={"scroll px-2"}>
                                         {athlete.PlaSurname} {athlete.PlaName}
                                         <br></br>
                                         {athlete.PlaBirth}
                                     </th>
-                                    <th className={"scroll"}>{athlete.TeamDescrIta}</th>
-                                    <th>
+                                    <th className={"scroll px-2"}>{athlete.TeamDescrIta}</th>
+                                    <th className="px-2">
                                         {athlete.MemPrest}
                                         <br></br>
                                         ({athlete.Gap.length > 1 ? "+" + athlete.Gap + "" : "-"})
                                     </th>
-                                    <th>{athlete.MemQual}</th>
+                                    {athlete.MemQual != "" ? <th className="px-2">{athlete.MemQual}</th> : ""}
                                 </tr>
                             ))}
                         </tbody>

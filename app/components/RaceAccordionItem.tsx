@@ -38,7 +38,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
     };
 
     return (
-        <div className="m-4 collapse collapse-arrow bg-blue-950 shadow-violet-800 w-full">
+        <div className="w-full my-4 collapse collapse-arrow bg-blue-950 shadow-violet-800 ">
             <input 
                 type="radio" 
                 name="my-accordion-2"
@@ -51,7 +51,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
             <div className="collapse-title text-xl font-medium">
                 {race.raceName}
             </div>
-            <div className="collapse-content">
+            <div className="collapse-content overflow-x-hidden">
                 {loading ? (
                     <div>Loading...</div>
                 ) : data ? (

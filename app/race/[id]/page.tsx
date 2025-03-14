@@ -79,7 +79,7 @@ export default async function Page({ params}: {params: { id: string }; }) {
         }
 
         return (
-            <div>
+            <div className="w-11/12 mx-auto">
                 {races.map((race, index) => (
                     <RaceAccordionItem key={index} race={race} index={index}/>
                 ))}
