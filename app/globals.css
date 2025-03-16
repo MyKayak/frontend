@@ -25,3 +25,6 @@ body {
   overflow-x: scroll;
 }
 
+.shadow{
+  box-shadow: 0 5px 5px #aaa4;
+}

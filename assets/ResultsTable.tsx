@@ -32,7 +32,7 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
     }
 
     return (
-        <div className="mx-auto self-center w-full p-1 overflow-x-hidden">
+        <div className="mx-auto self-center w-full m-1 overflow-x-hidden">
             <div className="overflow-x-scroll">
                 {competitors.map((heat, index) => (
                     <table key={`heat-${index}`} className="table table-zebra mx-auto">
