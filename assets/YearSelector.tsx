@@ -15,7 +15,7 @@ export function YearSelector({defaultYear} :{defaultYear : number}) {
         <select id="year" defaultValue={defaultYear} className="select" onChange={function () {
             window.location.href = `/year/${document.getElementsByTagName("select")[0].selectedIndex + 2019}`
         }}>
-            <option disabled={true}>Scegli l'anno</option>
+            <option disabled={true}>Scegli l&apos;anno</option>
             {years.map(year => (
                 <option key={year}>{year}</option>
             ))}
