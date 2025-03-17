@@ -19,10 +19,12 @@ async function getData(year:number):Race[]{
 export default async function Home() {
   const data = await getData(2024);
   return (
-    <div>
+    <div className="flex items-center flex-col">
       <YearSelector defaultYear={new Date().getFullYear()}></YearSelector>
+      <br></br>
       {data.map(race => (
-        <a key={race.CodicePub} href={"/race/" + race.CodicePub} className="block m-10">{race.Description}</a>
+          <a href={"/race/" + race.CodicePub} key={race.CodicePub} className="w-10/12  justify-self-center self-center items-center flex flex-col"><button className="m-10 btn btn-soft btn-primary">{race.Description}</button></a>
+
       ))}
     </div>
   );
