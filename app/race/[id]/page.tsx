@@ -1,4 +1,5 @@
 import RaceAccordionItem from "../../components/RaceAccordionItem";
+import RaceFilter from "@/assets/RaceFilter";
 
 const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/";
 
@@ -80,6 +81,7 @@ export default async function Page({ params}: {params: { id: string }; }) {
 
         return (
             <div className="w-11/12 mx-auto">
+                <RaceFilter></RaceFilter>
                 {races.map((race, index) => (
                     <RaceAccordionItem key={index} race={race} index={index}/>
                 ))}

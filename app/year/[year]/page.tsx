@@ -19,10 +19,18 @@ export default async function Page({ params}: {params: { year: string }; }){
     const year = (await params).year;
     const data = await getData(year);
     return (
-        <div>
+        <div className="flex items-center flex-col">
             <YearSelector defaultYear={year}></YearSelector>
+            <br></br>
             {data.map(race => (
-                <a key={race.CodicePub} href={"/race/" + race.CodicePub} className="block m-10">{race.Description}</a>
+                <a href={"/race/" + race.CodicePub} key={race.CodicePub} className="w-10/12  justify-self-center self-center items-center flex flex-col">
+                    <button className="m-4 btn btn-soft btn-primary w-full p-2 h-fit">
+                        <div className="flex w-full flex-row justify-between items-center gap-4">
+                            <p>{race.Description}</p>
+                            <p>{race.Place}<br></br>{race.Data}</p>
+                        </div>
+                    </button>
+                </a>
             ))}
         </div>
     );
