@@ -1,5 +1,5 @@
-import RaceAccordionItem from "../../components/RaceAccordionItem";
 import RaceFilter from "@/assets/RaceFilter";
+import RaceList from "@/assets/RaceList";
 
 const baseURL = "https://apicanoavelocita.ficr.it/CAV/mpcache-30/get/programdate/";
 
@@ -20,9 +20,6 @@ interface ApiResponse {
 async function fetchData(url: string): Promise<ApiResponse> {
     try {
         const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status}`);
-        }
         return await response.json();
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
@@ -51,15 +48,15 @@ interface Race {
         c1: string;
         c2: string;
         c3: string;
+        query: string;
     };
     data: null;
 }
 
-export default async function Page({ params}: {params: { id: string }; }) {
-    const resolvedParams = await params;
-    const id = resolvedParams.id;
-    const races: Race[] = [];
 
+export default async function Page({ params }: {params: { id: string }; }) {
+    const id = params.id;
+    const races: Race[] = [];
     try {
         const url_data = await fetchData(baseURL + id);
 
@@ -72,7 +69,8 @@ export default async function Page({ params}: {params: { id: string }; }) {
                         c0: bar.c0,
                         c1: bar.c1,
                         c2: bar.c2.substring(1),
-                        c3: bar.c3
+                        c3: bar.c3,
+                        query: ""
                     },
                     data: null
                 });
@@ -82,9 +80,7 @@ export default async function Page({ params}: {params: { id: string }; }) {
         return (
             <div className="w-11/12 mx-auto">
                 <RaceFilter></RaceFilter>
-                {races.map((race, index) => (
-                    <RaceAccordionItem key={index} race={race} index={index}/>
-                ))}
+                <RaceList races={races}></RaceList>
             </div>
         );
     } catch (error) {
@@ -92,22 +88,3 @@ export default async function Page({ params}: {params: { id: string }; }) {
         return <div>Error fetching data</div>;
     }
 }
-
-/**
- * Prende i dati della ficr e lo trasforma in un formato utilizzablile
- * @param data l'oggetto restituito
- */
-/*
-function processHeatsData(data) {
-    const heats: Competitor[][] = [];
-
-    for (const athlete of data){
-        if (heats[athlete.b - 1] === undefined){
-            heats[athlete.b - 1] = [];
-        }
-        heats[athlete.b - 1].push(athlete);
-    }
-
-    return heats;
-}*/
-//https://apicanoavelocita.ficr.it/CAV/mpcache-20/get/startlist/CanoaPADOVA27102024_79/KY/SEM/0404/05/001

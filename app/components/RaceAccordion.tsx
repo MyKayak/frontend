@@ -13,6 +13,7 @@ interface RaceProps {
             c1: string;
             c2: string;
             c3: string;
+            query: string;
         };
         data: unknown;
     };
@@ -25,6 +26,7 @@ export default function RaceAccordion({ race }: RaceProps) {
     const fetchRaceData = async () => {
         setLoading(true);
         try {
+            console.log("test")
             const response = await fetch(
                 `/api/race-results?${new URLSearchParams(race.params)}`
             );

@@ -28,7 +28,7 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
     
     // Ensure competitors is an array
     if (!Array.isArray(competitors)) {
-        return <div>No data available</div>;
+        return <p>ERRORE</p>;
     }
 
     return (

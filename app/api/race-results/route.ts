@@ -33,6 +33,7 @@ function processHeatsData(data: Competitor[]): Competitor[][] {
     return heats;
 }
 
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -40,9 +41,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const c1 = searchParams.get('c1');
     const c2 = searchParams.get('c2');
     const c3 = searchParams.get('c3');
+    console.log("debug")
 
     const url = `https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/result/${id}/KY/${c0}/${c1}/${c2}/${c3}`;
-    
+
     try {
         const response = await fetch(url);
         const data = await response.json() as ApiResponse;

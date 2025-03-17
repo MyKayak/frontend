@@ -9,7 +9,7 @@ function getYears() {
     return years;
 }
 
-export function YearSelector({defaultYear}) {
+export function YearSelector({defaultYear} :{defaultYear : number}) {
     const years = getYears();
     return (
         <select id="year" defaultValue={defaultYear} className="select" onChange={function () {
