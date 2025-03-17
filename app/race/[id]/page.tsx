@@ -54,8 +54,8 @@ interface Race {
 }
 
 
-export default async function Page({ params }: {params: { id: string }; }) {
-    const id = params.id;
+export default async function Page({ params }: {params: Promise<{id:string}>; }) {
+    const id = (await params).id;
     const races: Race[] = [];
     try {
         const url_data = await fetchData(baseURL + id);

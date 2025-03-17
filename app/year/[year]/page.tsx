@@ -15,7 +15,7 @@ async function getData(year:number):Promise<Race[]>{
 }
 
 
-export default async function Page({params}: {params: { year: string }}){
+export default async function Page({params}: {params: Promise<{year: string}>}){
     const year = (await params).year;
     const data = await getData(Number(year));
     return (
