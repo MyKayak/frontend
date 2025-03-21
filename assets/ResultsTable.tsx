@@ -24,7 +24,6 @@ interface ResultsTableProps {
  */
 const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
     let key = 0;
-    console.log('ResultsTable received:', competitors);
     
     // Ensure competitors is an array
     if (!Array.isArray(competitors)) {
