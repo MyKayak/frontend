@@ -34,27 +34,35 @@ interface RaceListProps {
     races: Race[];
 }
 
-async function filterRaces(races: Race[], query: string) {
-    if (query.length == 0) return races; // siccome per cercare qualcosa scarica tutte le gare e ci mette un po' di tempo, se non c'e` nulla da cercare skippa sta parte
+async function filterRaces(races: Race[], queries: string[]) {
+    if (queries.length == 0) return races; // siccome per cercare qualcosa scarica tutte le gare e ci mette un po' di tempo, se non c'e` nulla da cercare skippa sta parte
 
     const filteredRaces: Race[] = [];
     for (const race of races) {
         const response = await fetch(`/api/race-results?${new URLSearchParams(race.params)}`);
         const heat = await response.json();
-        if (hasQuery(heat, query)) {
+        if (hasQuery(heat, queries)) {
             filteredRaces.push(race);
         }
     }
     return filteredRaces;
 }
 
-function hasQuery(heatsData: Competitor[][], query: string) {
+function hasQuery(heatsData: Competitor[][], queries: string[]) {
     console.log(heatsData);
-    if (query.length === 0) return true;
-    for (const heat of heatsData) {
-        for (const performance of heat) {
-            for (const value of Object.values(performance)) {
-                if (String(value).toLowerCase().includes(query.toLowerCase())) {
+    if (queries.length === 0) return true;
+    for (const query of queries){
+        for (const heat of heatsData) {
+            for (const performance of heat) {
+                for (const value of Object.values(performance)) { // controllo generico
+                    if (String(value).toLowerCase().includes(query.toLowerCase())) {
+                        return true;
+                    }
+                }
+                if(performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase() === query){ //nome cognome
+                    return true;
+                }
+                if(performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase() === query){ //cognome nome
                     return true;
                 }
             }
@@ -73,7 +81,7 @@ export default function RaceList({ races }: RaceListProps) {
         const getRaces = async () => {
             setLoading(true);
             try {
-                const filteredRaces = await filterRaces(races, query);
+                const filteredRaces = await filterRaces(races, query.split("+"));
                 setData(filteredRaces);
             } catch (error) {
                 console.error('Error fetching race data:', error instanceof Error ? error.message : error);
