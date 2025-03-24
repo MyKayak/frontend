@@ -11,6 +11,7 @@ export interface Competitor{
     MemPrest: string;
     MemQual: string;
     Gap: string;
+    Players: any[];
 }
 
 interface ResultsTableProps {
@@ -52,10 +53,21 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                         <br></br>
                                         ({athlete.PlaLane})
                                     </th>
-                                    <th className={"scroll px-2"}>
-                                        {athlete.PlaSurname} {athlete.PlaName}
-                                        <br></br>
-                                        {athlete.PlaBirth}
+                                    <th className={"scroll px-2 flex flex-col"}>
+                                        {
+                                            athlete.PlaName.length > 0
+                                                ? (
+                                                    <p>
+                                                        {athlete.PlaSurname} {athlete.PlaName}<br/>
+                                                        {athlete.PlaBirth}
+                                                    </p>
+                                                )
+                                                : athlete.Players.map((player) => (
+                                                    <p key={player.PlaName + player.PlaSurname}>
+                                                        {player.PlaSurname} {player.PlaName} {player.PlaBirth}
+                                                    </p>
+                                                ))
+                                        }
                                     </th>
                                     <th className={"scroll px-2"}>{athlete.TeamDescrIta}</th>
                                     <th className="px-2">
