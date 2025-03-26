@@ -41,6 +41,11 @@ async function filterRaces(races: Race[], queries: string[]) {
     for (const race of races) {
         const response = await fetch(`/api/race-results?${new URLSearchParams(race.params)}`);
         const heat = await response.json();
+        for (const query of queries){
+            if(race.raceName.includes(query)){
+                filteredRaces.push(race);
+            }
+        }
         if (hasQuery(heat, queries)) {
             filteredRaces.push(race);
         }
@@ -50,6 +55,7 @@ async function filterRaces(races: Race[], queries: string[]) {
 
 function hasQuery(heatsData: Competitor[][], queries: string[]) {
     console.log(heatsData);
+    console.log(queries)
     if (queries.length === 0) return true;
     for (const query of queries){
         for (const heat of heatsData) {
