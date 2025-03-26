@@ -97,6 +97,20 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
 }
 
 export default function RaceList({ races }: RaceListProps) {
+    const placeholders = [];
+    placeholders.push({raceName: "Eliminatorie K1 1000m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K1 1000m Femminile"})
+    placeholders.push({raceName: "Eliminatorie K2 1000m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K2 1000m Femminile"})
+    placeholders.push({raceName: "Eliminatorie K4 1000m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K4 1000m Femminile"})
+    placeholders.push({raceName: "Eliminatorie K1 500m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K1 500m Femminile"})
+    placeholders.push({raceName: "Eliminatorie K2 500m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K2 500m Femminile"})
+    placeholders.push({raceName: "Eliminatorie K4 500m Maschile"})
+    placeholders.push({raceName: "Eliminatorie K4 500m Femminile"})
+
     const [progress, setProgress] = useState<number>(0);
     const [data, setData] = useState<Race[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -125,16 +139,23 @@ export default function RaceList({ races }: RaceListProps) {
     return (
         <div className="w-11/12 mx-auto">
             {loading ? (
-                <div className="w-full h-screen flex items-center justify-items-center content-center justify-content-center flex-col">
-                    <div
-                        className="radial-progress text-primary transition-all mt-auto"
-                        style={{ "--value": progress } as React.CSSProperties}
-                        aria-valuenow={progress + "%"}
-                        role="progressbar">
-                        {progress}%
+                <div>
+                    <div>
+                        {placeholders.map((race: Race, index: number) => (
+                            <RaceAccordionItem key={race.raceName} race={race} index={index} />
+                        ))}
                     </div>
-                    <p className="mx-auto">Potrebbe volerci un pochino</p>
-                    <p className="mx-auto mb-auto">soprattutto se c&#39;è una <Link href="/search" className="link">ricerca</Link></p>
+                    <div className="w-full h-screen flex items-center justify-items-center content-center justify-content-center flex-col absolute top-0 left-0 backdrop-blur-sm shadow-2xl">
+                        <div
+                            className="radial-progress text-primary transition-all mt-auto"
+                            style={{ "--value": progress } as React.CSSProperties}
+                            aria-valuenow={progress + "%"}
+                            role="progressbar">
+                            {progress}%
+                        </div>
+                        <p className="mx-auto">Potrebbe volerci un pochino</p>
+                        <p className="mx-auto mb-auto">soprattutto se c&#39;è una <Link href="/search" className="link">ricerca</Link></p>
+                    </div>
                 </div>
             ) : data ? (
                 data.map((race: Race, index: number) => (
