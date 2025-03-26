@@ -69,10 +69,11 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
 function hasQuery(heatsData: Competitor[][], queries: string[]) {
     if (queries.length === 0 || queries[0].length == 0) return true;
 
-    for (const query of queries) {
+    for (let query of queries) {
         try {
             for (const heat of heatsData) {
                 for (const performance of heat) {
+                    query = query.replaceAll("\"", "");
                     // Check all string values in the performance object
                     for (const value of Object.values(performance)) {
                         if (String(value).toLowerCase().includes(query.toLowerCase())) {
@@ -80,15 +81,13 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
                         }
                     }
 
-                    // Check full name variations
-                    const fullNameVariations = [
-                        `${performance.PlaName.toLowerCase()} ${performance.PlaSurname.toLowerCase()}`,
-                        `${performance.PlaSurname.toLowerCase()} ${performance.PlaName.toLowerCase()}`
-                    ];
-
-                    if (fullNameVariations.includes(query.toLowerCase())) {
-                        return true;
-                    }
+                    try{
+                        if(query.split(" ")[0] == performance.PlaSurname.toLowerCase() || query.split(" ")[0] == performance.PlaName.toLowerCase()){
+                            if(query.split(" ")[1] == performance.PlaSurname.toLowerCase() || query.split(" ")[1] == performance.PlaSurname.toLowerCase()){
+                                return true;
+                            }
+                        }
+                    }catch{}
                 }
             }
         }catch{}
