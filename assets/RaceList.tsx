@@ -3,6 +3,7 @@
 import RaceAccordionItem from "../app/components/RaceAccordionItem";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export interface Competitor {
     b: number;
@@ -34,50 +35,69 @@ interface RaceListProps {
     races: Race[];
 }
 
-async function filterRaces(races: Race[], queries: string[]) {
-    if (queries.length == 0) return races; // siccome per cercare qualcosa scarica tutte le gare e ci mette un po' di tempo, se non c'e` nulla da cercare skippa sta parte
+async function filterRaces(races: Race[], queries: string[], onProgress: (progress: number) => void) {
+    if (queries.length === 0) return races;
 
     const filteredRaces: Race[] = [];
-    for (const race of races) {
+    const totalRaces = races.length;
+
+    for (const [index, race] of races.entries()) {
         const response = await fetch(`/api/race-results?${new URLSearchParams(race.params)}`);
         const heat = await response.json();
-        for (const query of queries){
-            if(race.raceName.toLowerCase().includes(query)){
-                filteredRaces.push(race);
-            }
+
+        // Calculate progress based on races processed
+        const progress = Math.round(((index + 1) / totalRaces) * 100);
+        onProgress(progress);
+
+        // Check race name
+        if (queries.some(query => race.raceName.toLowerCase().includes(query))) {
+            filteredRaces.push(race);
+            continue;
         }
+
+        // Check heat data
         if (hasQuery(heat, queries)) {
             filteredRaces.push(race);
         }
     }
+
+    // Ensure progress reaches 100% at the end
+    onProgress(100);
     return filteredRaces;
 }
 
 function hasQuery(heatsData: Competitor[][], queries: string[]) {
-    console.log(heatsData);
-    console.log(queries)
     if (queries.length === 0) return true;
-    for (const query of queries){
-        for (const heat of heatsData) {
-            for (const performance of heat) {
-                for (const value of Object.values(performance)) { // controllo generico
-                    if (String(value).toLowerCase().includes(query.toLowerCase())) {
+
+    for (const query of queries) {
+        try {
+            for (const heat of heatsData) {
+                for (const performance of heat) {
+                    // Check all string values in the performance object
+                    for (const value of Object.values(performance)) {
+                        if (String(value).toLowerCase().includes(query.toLowerCase())) {
+                            return true;
+                        }
+                    }
+
+                    // Check full name variations
+                    const fullNameVariations = [
+                        `${performance.PlaName.toLowerCase()} ${performance.PlaSurname.toLowerCase()}`,
+                        `${performance.PlaSurname.toLowerCase()} ${performance.PlaName.toLowerCase()}`
+                    ];
+
+                    if (fullNameVariations.includes(query.toLowerCase())) {
                         return true;
                     }
                 }
-                if(performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase() === query){ //nome cognome
-                    return true;
-                }
-                if(performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase() === query){ //cognome nome
-                    return true;
-                }
             }
-        }
+        }catch{}
     }
     return false;
 }
 
 export default function RaceList({ races }: RaceListProps) {
+    const [progress, setProgress] = useState<number>(0);
     const [data, setData] = useState<Race[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const searchParams = useSearchParams();
@@ -86,22 +106,36 @@ export default function RaceList({ races }: RaceListProps) {
     useEffect(() => {
         const getRaces = async () => {
             setLoading(true);
+            setProgress(0); // Reset progress at start
+
             try {
-                const filteredRaces = await filterRaces(races, query.split("+"));
+                const filteredRaces = await filterRaces(races, query.split("+"), setProgress);
                 setData(filteredRaces);
             } catch (error) {
                 console.error('Error fetching race data:', error instanceof Error ? error.message : error);
+                setProgress(0); // Reset progress on error
             }
+
             setLoading(false);
         };
 
-        console.log(getRaces()); // non serve a nulla stamparlo ma l'ide mi fa storie e pur di non dover sbattere la testa contro ESLint preferisco che sia cosi`
+        getRaces();
     }, [query, races]);
 
     return (
         <div className="w-11/12 mx-auto">
             {loading ? (
-                <div>Loading...</div>
+                <div className="w-full h-screen flex items-center justify-items-center content-center justify-content-center flex-col">
+                    <div
+                        className="radial-progress text-primary transition-all mt-auto"
+                        style={{ "--value": progress } as React.CSSProperties}
+                        aria-valuenow={progress + "%"}
+                        role="progressbar">
+                        {progress}%
+                    </div>
+                    <p className="mx-auto">Potrebbe volerci un pochino</p>
+                    <p className="mx-auto mb-auto">soprattutto se c&#39;è una <Link href="/search" className="link">ricerca</Link></p>
+                </div>
             ) : data ? (
                 data.map((race: Race, index: number) => (
                     <RaceAccordionItem key={race.raceName} race={race} index={index} />
