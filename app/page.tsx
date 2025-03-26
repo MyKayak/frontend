@@ -9,9 +9,12 @@ interface Race{
 }
 
 async function getData(year:number):Promise<Race[]>{
-  const response = await fetch(`https://apimanvarie.ficr.it/VAR/mpcache-30/get/schedule/${year}/*/19`);
-  const data = await response.json();
-  return data.data;
+    let response = null;
+    try{
+        response = await fetch(`https://apimanvarie.ficr.it/VAR/mpcache-30/get/schedule/${year}/*/19`);
+    } catch {return null}
+    const data = await response.json();
+    return data.data;
 }
 
 

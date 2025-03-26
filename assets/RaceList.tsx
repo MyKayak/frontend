@@ -42,7 +42,7 @@ async function filterRaces(races: Race[], queries: string[]) {
         const response = await fetch(`/api/race-results?${new URLSearchParams(race.params)}`);
         const heat = await response.json();
         for (const query of queries){
-            if(race.raceName.includes(query)){
+            if(race.raceName.toLowerCase().includes(query)){
                 filteredRaces.push(race);
             }
         }
