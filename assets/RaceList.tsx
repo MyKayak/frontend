@@ -36,7 +36,7 @@ interface RaceListProps {
 }
 
 async function filterRaces(races: Race[], queries: string[], onProgress: (progress: number) => void) {
-    if (queries.length === 0) return races;
+    if (queries.length === 0 || queries[0].length == 0) return races;
 
     const filteredRaces: Race[] = [];
     const totalRaces = races.length;
@@ -67,7 +67,7 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
 }
 
 function hasQuery(heatsData: Competitor[][], queries: string[]) {
-    if (queries.length === 0) return true;
+    if (queries.length === 0 || queries[0].length == 0) return true;
 
     for (const query of queries) {
         try {
