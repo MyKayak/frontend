@@ -16,6 +16,7 @@ export interface Competitor {
     MemPrest: string;
     MemQual: string;
     Gap: string;
+    Players: any[]
 }
 
 interface Race {
@@ -81,9 +82,6 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
                         }
                     }
 
-                    console.log(`|${performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase()}|`)
-                    console.log(`|${performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase() }|`)
-
                     if(query == performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase() || query == performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase()){
                         return true;
                     }
@@ -93,6 +91,17 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
                             if(query.split(" ")[1] == performance.PlaSurname.toLowerCase() || query.split(" ")[1] == performance.PlaSurname.toLowerCase()){
                                 return true;
                             }
+                        }
+                    }catch{}
+
+                    try{
+                        for (const player of performance.Players){
+                            if(query == player.PlaSurname.toLowerCase() + " " + player.PlaName.toLowerCase() || query == player.PlaName.toLowerCase() + " " + player.PlaSurname.toLowerCase()){
+                                return true;
+                            }
+                        }
+                        if(performance.Players.some(player => (player.PlaSurname.toLowerCase() + " " + player.PlaName.toLowerCase()).includes(query) || (player.PlaName.toLowerCase() + " " + player.PlaSurname.toLowerCase()).includes(query))){
+                            return true;
                         }
                     }catch{}
                 }
