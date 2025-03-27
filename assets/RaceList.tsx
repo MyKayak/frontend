@@ -81,6 +81,13 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
                         }
                     }
 
+                    console.log(`|${performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase()}|`)
+                    console.log(`|${performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase() }|`)
+
+                    if(query == performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase() || query == performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase()){
+                        return true;
+                    }
+
                     try{
                         if(query.split(" ")[0] == performance.PlaSurname.toLowerCase() || query.split(" ")[0] == performance.PlaName.toLowerCase()){
                             if(query.split(" ")[1] == performance.PlaSurname.toLowerCase() || query.split(" ")[1] == performance.PlaSurname.toLowerCase()){
@@ -146,14 +153,15 @@ export default function RaceList({ races }: RaceListProps) {
                     </div>
                     <div className="w-full h-screen flex items-center justify-items-center content-center justify-content-center flex-col absolute top-0 left-0 backdrop-blur-sm shadow-2xl">
                         <div
-                            className="radial-progress text-primary transition-all mt-auto"
+                            className="radial-progress text-primary transition-all m-auto"
                             style={{ "--value": progress } as React.CSSProperties}
                             aria-valuenow={progress + "%"}
                             role="progressbar">
                             {progress}%
                         </div>
+                        {/*
                         <p className="mx-auto">Potrebbe volerci un pochino</p>
-                        <p className="mx-auto mb-auto">soprattutto se c&#39;è una <Link href="/search" className="link">ricerca</Link></p>
+                        <p className="mx-auto mb-auto">soprattutto se c&#39;è una <Link href="/search" className="link">ricerca</Link></p>*/}
                     </div>
                 </div>
             ) : data ? (
