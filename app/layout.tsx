@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased mocha overflow-x-hidden`}>
+    <html lang="en" data-theme="latte">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
         <header className="backdrop-blur-sm fixed flex w-full gap-4 content-end p-2 justify-items-center flex-row z-10">
           <Link href="/" className="flex mx-auto">
             <button className="btn">MyKayak</button>
