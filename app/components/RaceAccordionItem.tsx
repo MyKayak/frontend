@@ -73,6 +73,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
             </div>
 );
 }
+
 import ResultsTable from "@/assets/ResultsTable";
 
 import { Competitor } from '@/app/race/[id]/page';
