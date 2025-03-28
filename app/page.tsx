@@ -27,7 +27,7 @@ export default async function Page(){
         <br></br>
         {data.map(race => (
             <a href={"/race/" + race.CodicePub} key={race.CodicePub} className="w-10/12  justify-self-center self-center items-center flex flex-col">
-              <button className="m-4 btn btn-soft btn-primary w-full p-2 h-fit">
+              <button className="m-4 btn btn-soft btn w-full p-4 h-fit">
                 <div className="flex w-full flex-row justify-between items-center gap-4">
                   <p>{race.Description}</p>
                   <p>{race.Place}<br></br>{race.Data}</p>

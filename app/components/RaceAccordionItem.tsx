@@ -44,7 +44,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
     };
 
     return (
-            <div className="w-full my-4 collapse collapse-arrow bg-primary">
+            <div className="w-full my-4 collapse collapse-arrow bg-base-200">
                 <input
                     type="radio"
                     name="my-accordion-2"
