@@ -75,7 +75,6 @@ function hasQuery(heatsData: Competitor[][], queries: string[]) {
             for (const heat of heatsData) {
                 for (const performance of heat) {
                     query = query.replaceAll("\"", "");
-                    // Check all string values in the performance object
                     for (const value of Object.values(performance)) {
                         if (String(value).toLowerCase().includes(query.toLowerCase())) {
                             return true;

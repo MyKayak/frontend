@@ -35,7 +35,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                 </div>
                 <div className="collapse-content overflow-x-hidden">
                     {loading ? (
-                        <div>Loading...</div>
+                        <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20 opacity-50"></div>
                     ) : data ? (
                         <ResultsTable competitors={data} />
                     ) : null}

@@ -54,7 +54,7 @@ export default function RaceAccordion({ race }: RaceProps) {
             </div>
             <div className="collapse-content">
                 {loading ? (
-                    <div>Loading...</div>
+                    <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20 opacity-50"></div>
                 ) : data ? (
                     <ResultsTable competitors={data} />
                 ) : null}
