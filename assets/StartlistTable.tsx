@@ -49,13 +49,13 @@ const StartlistTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                     {
                                         athlete.PlaName.length > 0
                                             ? (
-                                                <p>
+                                                <p className="py-1">
                                                     {athlete.PlaSurname} {athlete.PlaName}<br/>
                                                     {athlete.PlaBirth}
                                                 </p>
                                             )
                                             : athlete.Players.map((player) => (
-                                                <p key={player.PlaName + player.PlaSurname}>
+                                                <p key={player.PlaName + player.PlaSurname} className="py-1">
                                                     {player.PlaSurname} {player.PlaName} {player.PlaBirth}
                                                 </p>
                                             ))
