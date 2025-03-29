@@ -63,10 +63,10 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                     ) : startlist ? (
                         <div className="tabs tabs-border">
                             <input type="radio" name="my_tabs_2" className="tab" aria-label="Startlist" />
-                            <div className="tab-content border-base-300 bg-base-100 p-10 rounded-2xl"><StartlistTable competitors={startlist} /></div>
+                            <div className="tab-content border-base-300 bg-base-100 p-4 rounded-2xl overflow-x-scroll"><StartlistTable competitors={startlist} /></div>
 
                             <input type="radio" name="my_tabs_2" className="tab" aria-label="Risultati" defaultChecked />
-                            <div className="tab-content border-base-300 bg-base-100 p-10 rounded-2xl"><ResultsTable competitors={results} /></div>
+                            <div className="tab-content border-base-300 bg-base-100 p-4 rounded-2xl overflow-x-scroll"><ResultsTable competitors={results} /></div>
                         </div>
                     ) : null}
                 </div>
