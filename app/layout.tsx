@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import ThemeSelector from "@/assets/ThemeSelector";
+import {useEffect} from "react";
+import AutoThemeSetter from "@/assets/AutoThemeSetter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
+      <AutoThemeSetter />
         <header className="backdrop-blur-sm fixed flex w-full gap-4 content-end p-2 justify-items-center flex-row z-10">
           <Link href="/" className="flex mx-auto">
             <button className="btn">MyKayak</button>
