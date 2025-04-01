@@ -32,6 +32,22 @@ export default function RootLayout({
     <html lang="en">
     <head>
       <link rel="icon" href="/favicon.ico" />
+      <meta property="og:title" content="MyKayak" />
+      <meta property="og:description" content="ඞඞඞ" />
+      <meta property="og:image" content="/logo.png" />
+      <meta property="og:url" content="https://mykayak.fuffo.net" />
+      <meta property="og:type" content="website" />
+
+      {/* Twitter Card (optional) */}
+      <meta name="twitter:card" content="/logo.png" />
+      <meta name="twitter:site" content="https://mykayak.fuffo.net" />
+      <meta name="twitter:title" content="MyKayak" />
+      <meta name="twitter:description" content="ඞඞඞ" />
+      <meta name="twitter:image" content="/logo.png" />
+
+      {/* WhatsApp Preview (uses Open Graph) */}
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
     </head>
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
       <AutoThemeSetter />
