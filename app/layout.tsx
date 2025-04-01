@@ -28,6 +28,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const names = ["Federico Toluzzo", "Guido Michieletto"];
+  const randomizedNames = [...names].sort(() => Math.random() - 0.5);
   return (
     <html lang="en">
     <head>
@@ -58,6 +60,13 @@ export default function RootLayout({
         </header>
         <div className="h-20"></div>
         {children}
+        <footer className="flex p-20">
+          <div className="mx-auto">
+            <p className="text-center"> &copy;  2025 MyKayak - All Rights Reserved.
+            <br></br>
+            by {randomizedNames[0] + " and " + randomizedNames[1] + "."}</p>
+          </div>
+        </footer>
       </body>
     </html>
   );
