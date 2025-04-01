@@ -75,7 +75,7 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                         <br></br>
                                         ({athlete.Gap.length > 1 ? "+" + athlete.Gap + "" : "-"})
                                     </th>
-                                    {athlete.MemQual != "" ? <th className="px-2">{athlete.MemQual}</th> : ""}
+                                    {athlete.MemQual != "" ? <th className={`flex content-center items-center justify-center m-auto w-12 h-full self-center justify-self-center my-auto text-base-100 aspect-square rounded-full text-center ${athlete.MemQual.startsWith("F") || athlete.MemQual.startsWith("Q") ? "bg-success": (athlete.MemQual == "X" ? "bg-error": "bg-warning")}`}>{athlete.MemQual}</th> : ""}
                                 </tr>
                             ))}
                         </tbody>
