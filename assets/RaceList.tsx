@@ -161,11 +161,11 @@ export default function RaceList({ races }: RaceListProps) {
                     </div>
                     <div className="w-full h-screen flex items-center justify-items-center content-center justify-content-center flex-col absolute top-0 left-0 backdrop-blur-sm shadow-2xl">
                         <div
-                            className="radial-progress text-primary transition-all m-auto"
+                            className="radial-progress text-primary transition-all m-auto animate-spin"
                             style={{ "--value": progress } as React.CSSProperties}
                             aria-valuenow={progress + "%"}
                             role="progressbar">
-                            {progress}%
+                            <p className="animate-spin-reverse">{progress}%</p>
                         </div>
                         {/*
                         <p className="mx-auto">Potrebbe volerci un pochino</p>

@@ -19,6 +19,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        'spin-reverse': 'spin 1s linear infinite reverse',
+      }
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports

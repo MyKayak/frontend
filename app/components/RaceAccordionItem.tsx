@@ -59,7 +59,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                 </div>
                 <div className="collapse-content overflow-x-hidden">
                     {loading ? (
-                        <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20 opacity-50"></div>
+                        <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20"></div>
                     ) : startlist ? (
                         <div className="tabs tabs-border">
                             <input type="radio" name="my_tabs_2" className="tab" aria-label="Startlist" />
