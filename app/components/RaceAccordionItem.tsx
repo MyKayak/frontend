@@ -55,7 +55,7 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                     }}
                 />
                 <div className="collapse-title text-xl font-medium">
-                    {race.raceName}
+                    <span dangerouslySetInnerHTML={{ __html: race.raceName }} />
                 </div>
                 <div className="collapse-content overflow-x-hidden">
                     {loading ? (
