@@ -36,6 +36,19 @@ interface RaceListProps {
     races: Race[];
 }
 
+function processHeatsData(data: Competitor[]): Competitor[][] {
+    const heats: Competitor[][] = [];
+
+    for (const athlete of data) {
+        if (heats[athlete.b - 1] === undefined) {
+            heats[athlete.b - 1] = [];
+        }
+        heats[athlete.b - 1].push(athlete);
+    }
+
+    return heats;
+}
+
 async function filterRaces(races: Race[], queries: string[], onProgress: (progress: number) => void) {
     if (queries.length === 0 || queries[0].length == 0) return races;
 
@@ -43,23 +56,25 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
     const totalRaces = races.length;
 
     for (const [index, race] of races.entries()) {
-        const response = await fetch(`/api/race-results?${new URLSearchParams(race.params)}`);
-        const heat = await response.json();
+        try{
+            const response = await fetch(`https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/startlist/${race.params.id}/KY/${race.params.c0}/${race.params.c1}/${race.params.c2}/${race.params.c3}`);
+            const heat = processHeatsData((await response.json()).data.data);
 
-        // Calculate progress based on races processed
-        const progress = Math.round(((index + 1) / totalRaces) * 100);
-        onProgress(progress);
+            // Calculate progress based on races processed
+            const progress = Math.round(((index + 1) / totalRaces) * 100);
+            onProgress(progress);
 
-        // Check race name
-        if (queries.some(query => race.raceName.toLowerCase().includes(query))) {
-            filteredRaces.push(race);
-            continue;
-        }
+            // Check race name
+            if (queries.some(query => race.raceName.toLowerCase().includes(query))) {
+                filteredRaces.push(race);
+                continue;
+            }
 
-        // Check heat data
-        if (hasQuery(heat, queries)) {
-            filteredRaces.push(race);
-        }
+            // Check heat data
+            if (hasQuery(heat, queries)) {
+                filteredRaces.push(race);
+            }
+        } catch {}
     }
 
     // Ensure progress reaches 100% at the end
