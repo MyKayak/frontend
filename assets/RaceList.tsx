@@ -60,9 +60,6 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
             const response = await fetch(`https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/startlist/${race.params.id}/KY/${race.params.c0}/${race.params.c1}/${race.params.c2}/${race.params.c3}`);
             const heat = processHeatsData((await response.json()).data.data);
 
-            // Calculate progress based on races processed
-            const progress = Math.round(((index + 1) / totalRaces) * 100);
-            onProgress(progress);
 
             // Check race name
             if (queries.some(query => race.raceName.toLowerCase().includes(query))) {
@@ -74,7 +71,11 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
             if (hasQuery(heat, queries)) {
                 filteredRaces.push(race);
             }
-        } catch {}
+        } finally {
+            // Calculate progress based on races processed
+            const progress = Math.round(((index + 1) / totalRaces) * 100);
+            onProgress(progress);
+        }
     }
 
     // Ensure progress reaches 100% at the end

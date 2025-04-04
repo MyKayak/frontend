@@ -17,4 +17,5 @@ In particolare, ecco una lista di tutte le funzionalità introdotte che il sito 
 <summary>Versione 1.0.0</summary>
 <br>
 La versione 1.0.0 è la prima versione ad essere pubblicamente accessibile ad una gara. L'unica funzionalità aggiunta rispetto al sito della FiCR è la ricerca, che adesso è decisamente migliorata non dovendo più basarsi sui risultati ma sulle startlist.
+04/04/2025
 </details>
