@@ -124,7 +124,13 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                         <br></br>
                                         ({athlete.Gap.length > 1 ? "+" + athlete.Gap + "" : "-"})
                                     </th>
-                                    {athlete.MemQual != "" ? <th className={`flex content-center items-center justify-center m-auto w-12 h-full self-center justify-self-center my-auto text-base-100 aspect-square rounded-full text-center ${athlete.MemQual.startsWith("F") || athlete.MemQual.startsWith("Q") ? "bg-success": (athlete.MemQual == "X" ? "bg-error": "bg-warning")}`}>{athlete.MemQual}</th> : ""}
+                                    {athlete.MemQual != "" ? <th className={``}>
+                                        <span className={`flex items-center justify-center text text-center w-12 items-center justify-center rounded-full aspect-square text-base-100 ${athlete.MemQual.startsWith("F") || athlete.MemQual.startsWith("Q") ? "bg-success" : (athlete.MemQual == "X" ? "bg-error" : "bg-warning")}`}>
+                                            <span className="my-auto">
+                                                {athlete.MemQual}
+                                            </span>
+                                        </span>
+                                    </th> : ""}
                                 </tr>
                             ))}
                         </tbody>
