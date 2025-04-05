@@ -56,9 +56,20 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
     const totalRaces = races.length;
 
     for (const [index, race] of races.entries()) {
-        try{
+        try {
             const response = await fetch(`https://apicanoavelocita.ficr.it/CAV/mpcache-10/get/startlist/${race.params.id}/KY/${race.params.c0}/${race.params.c1}/${race.params.c2}/${race.params.c3}`);
-            const heat = processHeatsData((await response.json()).data.data);
+
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
+            }
+
+            const jsonResponse = await response.json();
+
+            if (!jsonResponse || !jsonResponse.data || !jsonResponse.data.data) {
+                throw new Error("Invalid API response structure");
+            }
+
+            const heat = processHeatsData(jsonResponse.data.data);
 
             const progress = Math.round(((index + 1) / totalRaces) * 100);
             onProgress(progress);
@@ -73,8 +84,9 @@ async function filterRaces(races: Race[], queries: string[], onProgress: (progre
             if (hasQuery(heat, queries)) {
                 filteredRaces.push(race);
             }
-        } catch {
-            // Così dovrebbe andare in entrambi i casi
+        } catch (error) {
+            // Fix the error handling - make sure 'error' is properly defined
+            console.error("Error processing race:", error);
             const progress = Math.round(((index + 1) / totalRaces) * 100);
             onProgress(progress);
         }
