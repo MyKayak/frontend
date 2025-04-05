@@ -92,9 +92,11 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                             {heat.map((athlete) => (
                                 <tr key={key++}>
                                     <th className="px-2">
-                                        <span   className={athlete.MemQual == "" ? "self-center mx-auto border-4 rounded-full aspect-square flex items-center justify-center w-16 " + (athlete.PlaCls == 1 ? "bg-amber-200 border-amber-400 text-amber-400" : (athlete.PlaCls == 2 ? "bg-neutral-200 border-neutral-400 text-gray-400" : (athlete.PlaCls == 3 ? "bg-yellow-800 border-yellow-950 text-yellow-950" : ""))) : ""}>{athlete.PlaCls}</span>
-                                        <br></br>
-                                        <span className="flex self-center mx-auto w-fit text-center">({athlete.PlaLane})</span>
+                                        <div className=" flex items-center justify-center flex-col self-center">
+                                            <span   className={"mx-auto text-center content-center items-center justify-center " + (athlete.MemQual == "" ? "  border-4 rounded-full aspect-square items-center justify-center w-16 " + (athlete.PlaCls == 1 ? "bg-amber-200 border-amber-400 text-amber-400" : (athlete.PlaCls == 2 ? "bg-neutral-200 border-neutral-400 text-gray-400" : (athlete.PlaCls == 3 ? "bg-yellow-800 border-yellow-950 text-yellow-950" : ""))) : "")}>{athlete.PlaCls}</span>
+                                            <br></br>
+                                            <span className="flex self-center mx-auto w-fit text-center">({athlete.PlaLane})</span>
+                                        </div>
                                     </th>
                                     <th className={"scroll px-2 items-center h-full"}>
                                         {
