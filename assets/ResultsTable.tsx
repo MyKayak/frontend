@@ -109,7 +109,7 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                                     <div>
                                                         {
                                                             athlete.Players.map((player) => (
-                                                                <p key={player.PlaName + player.PlaSurname} className={"py-1" + hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : ""}>
+                                                                <p key={player.PlaName + player.PlaSurname} className={"py-1" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
                                                                     {player.PlaSurname} {player.PlaName} {player.PlaBirth}
                                                                 </p>
                                                             ))
