@@ -96,20 +96,26 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                                         <br></br>
                                         <span className="flex self-center mx-auto w-fit text-center">({athlete.PlaLane})</span>
                                     </th>
-                                    <th className={"scroll px-2 flex flex-col"}>
+                                    <th className={"scroll px-2 items-center h-full"}>
                                         {
                                             athlete.PlaName.length > 0
                                                 ? (
-                                                    <p className={"py-1" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
+                                                    <p className={"py-1 self-center my-auto" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
                                                         {athlete.PlaSurname} {athlete.PlaName}<br/>
                                                         {athlete.PlaBirth}
                                                     </p>
                                                 )
-                                                : athlete.Players.map((player) => (
-                                                    <p key={player.PlaName + player.PlaSurname} className={"py-1" + hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : ""}>
-                                                        {player.PlaSurname} {player.PlaName} {player.PlaBirth}
-                                                    </p>
-                                                ))
+                                                : (
+                                                    <div>
+                                                        {
+                                                            athlete.Players.map((player) => (
+                                                                <p key={player.PlaName + player.PlaSurname} className={"py-1" + hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : ""}>
+                                                                    {player.PlaSurname} {player.PlaName} {player.PlaBirth}
+                                                                </p>
+                                                            ))
+                                                        }
+                                                    </div>
+                                                )
                                         }
                                     </th>
                                     <th className={"px-2" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>{athlete.TeamDescrIta}</th>
