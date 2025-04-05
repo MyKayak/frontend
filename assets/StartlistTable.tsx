@@ -1,4 +1,5 @@
 import React from "react";
+import {useSearchParams} from "next/navigation";
 
 export interface Competitor{
     b: number;
@@ -13,13 +14,52 @@ export interface Competitor{
 interface ResultsTableProps {
     competitors: Competitor[][];
 }
+function hasQuery(performance: Competitor, queries: string[]) {
+    if (queries.length === 0 || queries[0].length == 0) return true;
 
+    for (let query of queries) {
+        try {
+            query = query.replaceAll("\"", "");
+            for (const value of Object.values(performance)) {
+                if (String(value).toLowerCase().includes(query.toLowerCase())) {
+                    return true;
+                }
+            }
+
+            if(query == performance.PlaSurname.toLowerCase() + " " + performance.PlaName.toLowerCase() || query == performance.PlaName.toLowerCase() + " " + performance.PlaSurname.toLowerCase()){
+                return true;
+            }
+
+            try{
+                if(query.split(" ")[0] == performance.PlaSurname.toLowerCase() || query.split(" ")[0] == performance.PlaName.toLowerCase()){
+                    if(query.split(" ")[1] == performance.PlaSurname.toLowerCase() || query.split(" ")[1] == performance.PlaSurname.toLowerCase()){
+                        return true;
+                    }
+                }
+            }catch{}
+
+            try{
+                for (const player of performance.Players){
+                    if(query == player.PlaSurname.toLowerCase() + " " + player.PlaName.toLowerCase() || query == player.PlaName.toLowerCase() + " " + player.PlaSurname.toLowerCase()){
+                        return true;
+                    }
+                }
+                if(performance.Players.some(player => (player.PlaSurname.toLowerCase() + " " + player.PlaName.toLowerCase()).includes(query) || (player.PlaName.toLowerCase() + " " + player.PlaSurname.toLowerCase()).includes(query))){
+                    return true;
+                }
+            }catch{}
+        }catch{}
+    }
+    return false;
+}
 /**
  * Rappresenta una tabella con dei competitori di una batteria
  * @param competitors un'array contente tutti i competitori della batteria da rappresentare
  * @constructor
  */
 const StartlistTable: React.FC<ResultsTableProps> = ({ competitors }) => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get('query') || '';
     let key = 0;
 
     // Ensure competitors is an array
@@ -42,26 +82,26 @@ const StartlistTable: React.FC<ResultsTableProps> = ({ competitors }) => {
                         <tbody>
                         {heat.map((athlete) => (
                             <tr key={key++}>
-                                <th className="px-2">
+                                <th className={"px-2" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
                                     ({athlete.PlaLane})
                                 </th>
                                 <th className={"scroll px-2 flex flex-col"}>
                                     {
                                         athlete.PlaName.length > 0
                                             ? (
-                                                <p className="py-1">
+                                                <p className={"py-1" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
                                                     {athlete.PlaSurname} {athlete.PlaName}<br/>
                                                     {athlete.PlaBirth}
                                                 </p>
                                             )
                                             : athlete.Players.map((player) => (
-                                                <p key={player.PlaName + player.PlaSurname} className="py-1">
+                                                <p key={player.PlaName + player.PlaSurname} className={"py-1" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>
                                                     {player.PlaSurname} {player.PlaName} {player.PlaBirth}
                                                 </p>
                                             ))
                                     }
                                 </th>
-                                <th className={"scroll px-2"}>{athlete.TeamDescrIta}</th>
+                                <th className={"scroll px-2" + (hasQuery(athlete, query.split("+")) ? " text-info font-extrabold" : "")}>{athlete.TeamDescrIta}</th>
                             </tr>
                         ))}
                         </tbody>
