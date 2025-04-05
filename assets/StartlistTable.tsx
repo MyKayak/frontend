@@ -15,7 +15,7 @@ interface ResultsTableProps {
     competitors: Competitor[][];
 }
 function hasQuery(performance: Competitor, queries: string[]) {
-    if (queries.length === 0 || queries[0].length == 0) return true;
+    if (queries.length === 0 || queries[0].length == 0) return false;
 
     for (let query of queries) {
         try {
