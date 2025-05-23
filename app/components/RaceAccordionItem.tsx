@@ -54,8 +54,9 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                         }
                     }}
                 />
-                <div className="collapse-title text-xl font-medium">
-                    {race.raceName}
+                <div className="collapse-title text-xl font-medium flex flex-row gap-4">
+                    <p>{race.h}</p>
+                    <p>{race.raceName}</p>
                 </div>
                 <div className="collapse-content overflow-x-hidden">
                     {loading ? (
@@ -91,6 +92,7 @@ interface RaceAccordionItemProps {
             query: string;
         };
         data: unknown;
+        h:string;
     };
     index: number;
 }

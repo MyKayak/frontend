@@ -28,7 +28,9 @@ interface Race {
         c2: string;
         c3: string;
         query: string;
+
     };
+    h:string;
     data: null;
 }
 
