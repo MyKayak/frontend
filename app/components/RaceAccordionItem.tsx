@@ -54,19 +54,18 @@ export default function RaceAccordionItem({ race }: RaceAccordionItemProps) {
                         }
                     }}
                 />
-                <div className="collapse-title text-xl font-medium flex flex-row gap-4">
-                    <p>{race.h}</p>
-                    <p>{race.raceName}</p>
+                <div className="collapse-title text-xl font-medium">
+                    <span dangerouslySetInnerHTML={{ __html: race.raceName }} />
                 </div>
                 <div className="collapse-content overflow-x-hidden">
                     {loading ? (
-                        <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20 opacity-50"></div>
+                        <div className="skeleton mx-auto self-center w-full m-1 overflow-x-hidden h-20"></div>
                     ) : startlist ? (
                         <div className="tabs tabs-border">
-                            <input type="radio" name="my_tabs_2" className="tab" aria-label="Startlist" />
+                            <input type="radio" name="my_tabs_2" className="tab" aria-label="Startlist" defaultChecked/>
                             <div className="tab-content border-base-300 bg-base-100 p-4 rounded-2xl overflow-x-scroll"><StartlistTable competitors={startlist} /></div>
 
-                            <input type="radio" name="my_tabs_2" className="tab" aria-label="Risultati" defaultChecked />
+                            <input type="radio" name="my_tabs_2" className="tab" aria-label="Risultati" />
                             <div className="tab-content border-base-300 bg-base-100 p-4 rounded-2xl overflow-x-scroll"><ResultsTable competitors={results} /></div>
                         </div>
                     ) : null}
@@ -92,7 +91,6 @@ interface RaceAccordionItemProps {
             query: string;
         };
         data: unknown;
-        h:string;
     };
     index: number;
 }
