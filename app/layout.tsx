@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import ThemeSelector from "@/assets/ThemeSelector";
-import {useEffect} from "react";
 import AutoThemeSetter from "@/assets/AutoThemeSetter";
 
 const geistSans = Geist({
