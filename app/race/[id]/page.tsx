@@ -80,7 +80,7 @@ export default async function Page({ params }: {params: Promise<{id:string}>; })
         return (
             <div className="w-11/12 mx-auto">
                 <RaceFilter></RaceFilter>
-                <RaceList races={races}></RaceList>
+                <RaceList races={races as any}></RaceList>
             </div>
         );
     } catch (error) {
