@@ -44,7 +44,7 @@ const Nav = () => {
     <nav className="fixed top-0 z-20 flex items-center justify-center w-full p-4 font-medium transition-all">
         <div className="flex gap-2 p-2 bg-sky-200/20 w-fit rounded-full backdrop-blur-xl backdropt-brightness-80%">
           {buttons.map((button)=>(
-            <a className={`p-4 rounded-full hover:bg-sky-200/10 transition-all${button.isActive ? " bg-sky-200/20 cursor-pointer" : ""}`} href={button.path}>
+            <a key={button.path} className={`p-4 rounded-full hover:bg-sky-200/10 transition-all${button.isActive ? " bg-sky-200/20 cursor-pointer" : ""}`} href={button.path}>
               {button.label}
             </a>
           ))}
