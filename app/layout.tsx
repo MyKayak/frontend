@@ -23,6 +23,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Nav />
+        <div className="h-26"></div>
         {children}
       </body>
     </html>

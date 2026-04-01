@@ -7,7 +7,7 @@ const Page = async () => {
   const teams = await req.json();
   return (
     <div className="relative">
-      <h1 className="text-center mt-32 mb-16 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">Società</h1>
+      <h1 className="text-center mt-8 mb-16 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">Società</h1>
       {teams.map((team:Team)=><TeamTile key={team.team_id} team={team}/>)}
     </div>
   )
