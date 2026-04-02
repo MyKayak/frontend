@@ -31,6 +31,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="flex flex-col items-center">
+      <title>{teamData.name}</title>
       <h2 className="text-center mt-8 mb-16 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">{teamData.name}</h2>
       <p className="text-white/50">{teamData.team_id}</p>
       {typeof teamData.titles != "undefined" ? (
@@ -40,7 +41,7 @@ const Page = async ({ params }: Props) => {
             <h2 className="text-3xl font-bold m-2 inline">Titoli</h2>
           </div>
           <div className=" flex flex-col gap-2 lg:grid grid-cols-3">
-            {teamData.titles.map((title) => (
+            {teamData.titles.map((title) =>
               <div
                 key={title.date}
                 className="py-2 px-4 bg-white/10 rounded-[10px]"
@@ -48,7 +49,7 @@ const Page = async ({ params }: Props) => {
                 <p className="text-center">{`${title.boat} ${title.distance}m ${divisions[title.division] ?? "master" /* TODO: handle master correctly */} ${categories[title.category]}`}</p>
                 <p className="text-center">{`${title.location} ${title.date.split("-")[0]}`}</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       ) : (
