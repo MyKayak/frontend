@@ -19,7 +19,7 @@ const divisions = {
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:8080/team/${id}`);
+  const res = await fetch(`https://api.mykayak.fuffo.net/team/${id}`);
 
   if (!res.ok) {
     return <div>Team not found</div>;
@@ -30,7 +30,7 @@ const Page = async ({ params }: Props) => {
   console.log(teamData);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mb-2">
       <title>{teamData.name}</title>
       <h2 className="text-center mt-8 mb-16 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">{teamData.name}</h2>
       <p className="text-white/50">{teamData.team_id}</p>
