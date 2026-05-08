@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { ProgressChart } from '@/components/ui/progress_chart';
 import { formatTime } from '@/utils/formatting';
 import { Ruler, Timer } from 'lucide-react';
 
@@ -15,6 +16,7 @@ const Page = async ({ params }: Props) => {
   }
 
   const athleteData = await res.json();
+  console.log(athleteData.time_progression);
 
   return (
     <div className="flex flex-col items-center mb-2">
@@ -42,9 +44,10 @@ const Page = async ({ params }: Props) => {
           <Accordion type="single" collapsible className="w-full max-w-7xl p-4 transition-all">
             {Object.entries(athleteData.time_progression).map(([key, value]: [string, any], index) => (
               <AccordionItem value={`item-${index}`} key={key}>
-                <AccordionTrigger>{key.replace(/_/g, ' ')}</AccordionTrigger>
+                <AccordionTrigger>{key.replaceAll("_", ' ')}</AccordionTrigger>
                 <AccordionContent>
                   <div className="flex flex-col gap-2">
+                    <ProgressChart entries={value} className="h-64 lg:h-128 lg:mx-16 pr-16"></ProgressChart>
                     {value.map((entry: any, i: number) => (
                       <div key={i} className="flex justify-between p-2 border-b border-white/10">
                         <span>{entry.date}</span>

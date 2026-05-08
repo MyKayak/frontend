@@ -1,0 +1,615 @@
+openapi: 3.1.0
+info:
+  title: MyKayak API
+  version: 1.0.0
+  description: Enhanced FICr API
+servers:
+  - url: https://api.mykayak.fuffo.net
+    description: Production server
+components:
+  securitySchemes:
+    standardAuth:
+      type: apiKey
+      in: cookie
+      name: X-API-KEY
+    adminAuth:
+      type: apiKey
+      in: cookie
+      name: X-ADMIN-API-KEY
+
+  schemas:
+    Meet:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        date:
+          type: string
+          format: date
+
+    Race:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        distance:
+          type: integer
+        division:
+          type: string
+        category:
+          type: string
+        boat:
+          type: string
+        level:
+          type: string
+
+    Heat:
+      type: object
+      properties:
+        id:
+          type: integer
+        index:
+          type: integer
+        start_time:
+          type: string
+          format: date-time
+        is_result:
+          type: boolean
+          description: True if the heat contains results, false if it is a startlist.
+        performances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Performance'
+
+    Performance:
+      type: object
+      properties:
+        id:
+          type: integer
+        team_id:
+          type: string
+        team_name:
+          type: string
+        lane:
+          type: integer
+        placement:
+          type: integer
+          nullable: true
+        time_ms:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        points:
+          type: integer
+        athletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Athlete'
+
+    Athlete:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        surname:
+          type: string
+        birth_date:
+          type: string
+          format: date
+
+    Team:
+      type: object
+      properties:
+        team_id:
+          type: string
+        name:
+          type: string
+        logo:
+          type: string
+          nullable: true
+
+    TeamTitle:
+      type: object
+      properties:
+        time_ms:
+          type: integer
+          description: Winning time in milliseconds
+        start_time:
+          type: string
+          format: date-time
+          description: Date/time of the race
+        distance:
+          type: integer
+        category:
+          type: string
+        division:
+          type: string
+        boat:
+          type: string
+        location:
+          type: string
+
+    MedalTableEntry:
+      type: object
+      properties:
+        meet_id:
+          type: string
+          description: Only present when querying a specific meet
+        team_id:
+          type: string
+        team_name:
+          type: string
+        gold:
+          type: integer
+        silver:
+          type: integer
+        bronze:
+          type: integer
+        total_medals:
+          type: integer
+
+    AthleteRanking:
+      type: object
+      properties:
+        athlete_id:
+          type: integer
+        name:
+          type: string
+        surname:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        distance:
+          type: integer
+        boat:
+          type: string
+        category:
+          type: string
+          description: Gender category (M/F)
+        division:
+          type: string
+        best_time:
+          type: integer
+          description: Best time in milliseconds
+        avg_best_3:
+          type: number
+          description: Average of best 3 times in the filtered period (milliseconds)
+
+    PersonalRecord:
+      type: object
+      properties:
+        boat:
+          type: string
+        distance:
+          type: integer
+        category:
+          type: string
+        time:
+          type: integer
+
+    TimeProgressionEntry:
+      type: object
+      properties:
+        time_ms:
+          type: integer
+          description: Race time in milliseconds
+        date:
+          type: string
+          format: date
+          description: Date when the race was held
+
+paths:
+  /meets:
+    get:
+      summary: Get all meets
+      security:
+        - standardAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meet'
+
+  /races/{meet_id}:
+    get:
+      summary: Get races for a meet
+      security:
+        - standardAuth: []
+      parameters:
+        - name: meet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Race'
+        "400":
+          description: Meet ID not provided
+
+  /heats/{race_id}:
+    get:
+      summary: Get heats for a race
+      security:
+        - standardAuth: []
+      parameters:
+        - name: race_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startlist
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: If true, returns the data in startlist format (nullifying result-specific fields even if available).
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Heat'
+        "400":
+          description: Race ID not provided
+
+  /medal_table:
+    get:
+      summary: Get medal table with optional filters
+      description: Returns medal standings. Use filters to get standings for a specific meet, season, date range, or all-time. Leave all params empty for all-time standings across all races.
+      security:
+        - standardAuth: []
+      parameters:
+        - name: meet_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by meet ID (partial match). Use this to get standings for a specific meet.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter medals from this date onwards (exclusive). Use with `before` for a season or date range.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter medals up to this date (exclusive). Use with `after` for a season or date range.
+        - name: only_championships
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: Only include championship events. Can be combined with other filters.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MedalTableEntry'
+
+  /rankings:
+    get:
+      summary: Get athlete rankings for single-boat events (K1/C1)
+      description: Returns athlete rankings ordered by average of best 3 times. Filters by category (gender), division, distance, and date range. Use `after` to get rankings for the last year (e.g., `after=2025-01-01`). Leave all params empty for all-time rankings across all events.
+      security:
+        - standardAuth: []
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [M, F]
+          description: Filter by gender category (M=male, F=female)
+        - name: division
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by division (e.g., SEN, JUN, U23)
+        - name: distance
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filter by race distance in meters (e.g., 200, 500, 1000)
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter races from this date onwards. Use for seasonal rankings (e.g., last year).
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter races up to this date. Use with after for a specific season or date range.
+        - name: boat
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [K1, C1]
+          description: Filter by boat type (K1 or C1)
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AthleteRanking'
+
+  /athletes:
+    get:
+      summary: Search athletes with filters
+      parameters:
+        - name: name_hint
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by name or surname (partial match)
+        - name: birth_before
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter athletes born before this date
+        - name: birth_after
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Filter athletes born after this date
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+          description: Maximum number of athletes to return
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Number of athletes to skip
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Athlete'
+
+  /athlete/{athlete_id}:
+    get:
+      summary: Get athlete details including current team, personal records and time progression
+      parameters:
+        - name: athlete_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  surname:
+                    type: string
+                  birth_date:
+                    type: string
+                    format: date
+                  team:
+                    $ref: '#/components/schemas/Team'
+                  personal_records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PersonalRecord'
+                  time_progression:
+                    type: object
+                    description: Map of distance_boat_category keys (e.g., 200_K2_M) to arrays of time entries ordered by date
+                    additionalProperties:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/TimeProgressionEntry'
+        "400":
+          description: Athlete ID not provided
+
+  /teams:
+    get:
+      summary: Search teams by name
+      parameters:
+        - name: hint
+          in: query
+          required: false
+          schema:
+            type: string
+            default: ""
+          description: Filter by team name (partial match)
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+
+  /team/{team_id}:
+    get:
+      summary: Get team details including titles
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_id:
+                    type: string
+                  name:
+                    type: string
+                  logo:
+                    type: string
+                    nullable: true
+                  titles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TeamTitle'
+        "400":
+          description: Team ID not provided
+
+  /create_key:
+    post:
+      summary: Create a new API key
+      description: Requires an admin API key. Returns the generated API key once inserted with the given description.
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    example: bb4c16ee45465d0a
+        "401":
+          description: Unauthorized
+
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        "201":
+          description: User registered successfully
+        "400":
+          description: Bad request (missing fields)
+        "409":
+          description: Conflict (username or email already in use)
+
+  /login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "400":
+          description: Bad request (missing fields)
+        "401":
+          description: Unauthorized (invalid credentials)
