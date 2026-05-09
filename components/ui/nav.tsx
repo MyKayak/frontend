@@ -37,6 +37,11 @@ const Nav = () => {
       "path":"/medal_table",
       "isActive":false
     },
+    {
+      "label":"Ranking",
+      "path":"/rankings",
+      "isActive":false
+    },
   ];
 
   buttons.forEach((button)=>{
