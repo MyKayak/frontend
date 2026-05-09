@@ -121,10 +121,10 @@ components:
     TeamTitle:
       type: object
       properties:
-        time_ms:
+        time:
           type: integer
           description: Winning time in milliseconds
-        start_time:
+        date:
           type: string
           format: date-time
           description: Date/time of the race

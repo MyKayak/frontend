@@ -38,7 +38,6 @@ export function ProgressChart(props: ProgressChartProps) {
     return acc;
   }, []);
 
-  // Sort by date just in case
   processedData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
