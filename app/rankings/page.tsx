@@ -10,6 +10,8 @@ interface Props {
     division?: string; 
     distance?: string; 
     boat?: string;
+    after?: string;
+    before?: string;
   }>;
 }
 
@@ -21,6 +23,8 @@ const Page = async ({ searchParams }: Props) => {
   queryParams.set('distance', params.distance || '200');
   queryParams.set('category', params.category || 'M');
   queryParams.set('division', params.division || 'SEN');
+  if (params.after) queryParams.set('after', params.after);
+  if (params.before) queryParams.set('before', params.before);
 
   const url = `https://api.mykayak.fuffo.net/rankings?${queryParams.toString()}`;
   const res = await fetch(url, { cache: 'no-store' });

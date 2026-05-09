@@ -3,6 +3,10 @@ import Link from 'next/link';
 import MedalRow from '@/components/ui/medal_row';
 import { MedalTableEntry } from '@/models/medal';
 import { Trophy } from 'lucide-react';
+import {
+  Breadcrumb, BreadcrumbItem, BreadcrumbLink,
+  BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -31,7 +35,20 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="flex flex-col items-center pb-20 px-4">
-      <h1 className="text-center mt-8 mb-4 text-6xl md:text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-full max-w-6xl mx-auto uppercase tracking-tighter italic leading-tight">
+      <div className="w-full max-w-6xl mt-8 mb-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/races" className="text-white/40 hover:text-white">Gare</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="text-white/20" />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="text-white/70">{currentMeet?.name || id}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+      <h1 className="text-center mt-4 mb-4 text-6xl md:text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-full max-w-6xl mx-auto uppercase tracking-tighter italic leading-tight">
         {currentMeet?.name || 'Gara'}
       </h1>
       <div className="flex flex-col items-center mb-16 gap-2">
@@ -60,7 +77,7 @@ const Page = async ({ params }: Props) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl">
         {races.map((race) => (
-          <Link key={race.id} href={`/heats/${race.id}`} className="group">
+          <Link key={race.id} href={`/heats/${race.id}?meet_id=${id}&meet_name=${encodeURIComponent(currentMeet?.name || '')}&race_label=${encodeURIComponent(`${race.boat} ${race.distance}m – ${race.category} ${race.division}`)}`} className="group">
             <div className="p-6 h-full rounded-xl bg-white/5 border border-white/10 group-hover:border-white/30 group-hover:bg-white/10 transition-all flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start mb-4">

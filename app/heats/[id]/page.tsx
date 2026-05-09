@@ -2,15 +2,19 @@ import { Heat } from '@/models/meet';
 import { formatTime } from '@/utils/formatting';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ViewToggle from '@/components/ui/view_toggle';
+import {
+  Breadcrumb, BreadcrumbItem, BreadcrumbLink,
+  BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 interface Props {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mode?: string }>;
+  searchParams: Promise<{ mode?: string; meet_id?: string; meet_name?: string; race_label?: string }>;
 }
 
 const Page = async ({ params, searchParams }: Props) => {
   const { id } = await params;
-  const requestedMode = (await searchParams).mode;
+  const { mode: requestedMode, meet_id, meet_name, race_label } = await searchParams;
   
   const apiUrl = `https://api.mykayak.fuffo.net/heats/${id}${requestedMode === 'startlist' ? '?startlist=true' : ''}`;
   const res = await fetch(apiUrl, { cache: 'no-store' });
@@ -24,9 +28,30 @@ const Page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className="flex flex-col items-center pb-20 px-4">
-      <h2 className="text-center mt-8 mb-16 text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">
+      {meet_id && (
+        <div className="w-full max-w-5xl mt-8 mb-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/races" className="text-white/40 hover:text-white">Gare</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="text-white/20" />
+              <BreadcrumbItem>
+                <BreadcrumbLink href={`/races/${meet_id}`} className="text-white/40 hover:text-white">
+                  {meet_name || meet_id}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="text-white/20" />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-white/70">{race_label || id}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      )}
+      <h1 className="text-center mt-8 mb-16 text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">
         {effectiveMode === 'startlist' ? 'Startlist' : 'Risultati'}
-      </h2>
+      </h1>
 
       <ViewToggle defaultMode={effectiveMode} />
       
