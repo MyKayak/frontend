@@ -1,5 +1,8 @@
-import { Race } from '@/models/meet';
+import { Race, Meet } from '@/models/meet';
 import Link from 'next/link';
+import MedalRow from '@/components/ui/medal_row';
+import { MedalTableEntry } from '@/models/medal';
+import { Trophy } from 'lucide-react';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -7,18 +10,55 @@ interface Props {
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
-  const res = await fetch(`https://api.mykayak.fuffo.net/races/${id}`, { cache: 'no-store' });
+  
+  // Fetch races, medal table, and all meets in parallel to find the meet name
+  const [racesRes, medalRes, meetsRes] = await Promise.all([
+    fetch(`https://api.mykayak.fuffo.net/races/${id}`, { cache: 'no-store' }),
+    fetch(`https://api.mykayak.fuffo.net/medal_table?meet_id=${id}`, { cache: 'no-store' }),
+    fetch(`https://api.mykayak.fuffo.net/meets`, { cache: 'no-store' })
+  ]);
 
-  if (!res.ok) {
+  if (!racesRes.ok) {
     return <div className="text-center mt-20">Gara non trovata</div>;
   }
 
-  const races: Race[] = await res.json();
+  const races: Race[] = await racesRes.json();
+  const medalData: MedalTableEntry[] = await medalRes.json();
+  const allMeets: Meet[] = await meetsRes.json();
+  
+  const currentMeet = allMeets.find(m => m.id === id);
+  const topTeams = medalData.slice(0, 5);
 
   return (
-    <div className="flex flex-col items-center pb-20">
-      <h2 className="text-center mt-8 mb-16 text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto pb-4">Programma</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl px-4">
+    <div className="flex flex-col items-center pb-20 px-4">
+      <h1 className="text-center mt-8 mb-4 text-6xl md:text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-full max-w-6xl mx-auto uppercase tracking-tighter italic leading-tight">
+        {currentMeet?.name || 'Gara'}
+      </h1>
+      <div className="flex flex-col items-center mb-16 gap-2">
+        <p className="text-white/50 text-xl font-bold uppercase tracking-widest">{currentMeet?.location}</p>
+        <p className="text-white/30 font-mono">{currentMeet?.date}</p>
+      </div>
+
+      {topTeams.length > 0 && (
+        <div className="w-full max-w-5xl mb-24">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <Trophy className="h-8 w-8 text-yellow-500" />
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter">Top 5 Società</h2>
+          </div>
+          <div className="flex flex-col gap-3">
+            {topTeams.map((entry, index) => (
+              <MedalRow key={entry.team_id} entry={entry} rank={index + 1} />
+            ))}
+            {medalData.length > 5 && (
+              <Link href={`/medal_table?meet_id=${id}`} className="text-center mt-4 text-white/40 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest">
+                Visualizza medagliere completo →
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl">
         {races.map((race) => (
           <Link key={race.id} href={`/heats/${race.id}`} className="group">
             <div className="p-6 h-full rounded-xl bg-white/5 border border-white/10 group-hover:border-white/30 group-hover:bg-white/10 transition-all flex flex-col justify-between">
