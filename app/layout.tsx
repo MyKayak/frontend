@@ -24,9 +24,9 @@ export default async function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700" rel="stylesheet" />
       </head>
       <body
-        className={`antialiased ${isAdmin ? "border-[12px] border-red-600 min-h-screen" : ""}`}
+        className={`antialiased ${isAdmin ? "border-[6px] border-red-600 min-h-screen" : ""}`}
       >
-        <Nav />
+        <Nav isAdmin={isAdmin} />
         {children}
         <Footer></Footer>
       </body>

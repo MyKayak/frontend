@@ -17,7 +17,7 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/20 text-blue-400 mb-4">
             <KeyRound className="w-8 h-8" />
           </div>
-          <PageHeader title="Area Admin" />
+          <h2 className="text-4xl font-bold text-white mb-2">Area Admin</h2>
           <p className="text-white/40 text-sm mt-2 font-medium">
             Effettua l'accesso per gestire i contenuti
           </p>
@@ -26,7 +26,7 @@ export default function LoginPage() {
         <form action={formAction} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 ml-1">
-              Email
+              Username
             </label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />

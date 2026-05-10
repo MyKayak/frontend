@@ -37,10 +37,7 @@ export async function loadMoreTeamsAction(query: string, offset: number): Promis
 export async function setChampionshipAction(meet_id: string, is_championship: boolean): Promise<boolean> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  if (!token) {
-    console.error("[championship] No token found in cookies");
-    return false;
-  }
+  if (!token) return false;
 
   try {
     const res = await fetch(`https://api.mykayak.fuffo.net/meets/${meet_id}`, {
@@ -51,11 +48,8 @@ export async function setChampionshipAction(meet_id: string, is_championship: bo
       },
       body: JSON.stringify({ is_championship }),
     });
-    const body = await res.text();
-    console.log(`[championship] PATCH ${meet_id} → ${res.status}: ${body}`);
     return res.ok;
-  } catch (e) {
-    console.error("[championship] fetch error:", e);
+  } catch {
     return false;
   }
 }

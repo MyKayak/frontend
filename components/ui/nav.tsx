@@ -1,5 +1,5 @@
 "use client"
-import { CircleUserRound } from 'lucide-react';
+
 import { usePathname } from 'next/navigation';
 
 interface Button {
@@ -8,7 +8,11 @@ interface Button {
   isActive: boolean
 }
 
-const Nav = () => {
+interface NavProps {
+  isAdmin?: boolean
+}
+
+const Nav = ({ isAdmin }: NavProps) => {
   const path = usePathname();
 
   const buttons: Button[] = [
@@ -58,6 +62,18 @@ const Nav = () => {
             {button.label}
           </a>
         ))}
+        {isAdmin && (
+          <a
+            href="/dashboard"
+            className={`p-4 rounded-full flex items-center gap-2 transition-all font-bold
+              ${path === '/dashboard'
+                ? 'bg-red-600/30 text-red-300'
+                : 'hover:bg-red-600/20 text-red-400 hover:text-red-300'
+              }`}
+          >
+            Dashboard
+          </a>
+        )}
       </div>
     </nav>
   )
