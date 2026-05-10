@@ -53,3 +53,27 @@ export async function setChampionshipAction(meet_id: string, is_championship: bo
     return false;
   }
 }
+
+export async function updateTeamLogoAction(team_id: string, logoUrl: string): Promise<{ success: boolean; error?: string }> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return { success: false, error: "Unauthorized" };
+
+  try {
+    const res = await fetch(`https://api.mykayak.fuffo.net/teams/${team_id}/logo`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({ logo: logoUrl }),
+    });
+    if (res.ok) {
+      return { success: true };
+    } else {
+      return { success: false, error: "Failed to update logo" };
+    }
+  } catch {
+    return { success: false, error: "Network error" };
+  }
+}

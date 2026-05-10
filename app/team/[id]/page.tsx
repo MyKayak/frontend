@@ -1,6 +1,8 @@
+import { cookies } from "next/headers";
 import { Team, TeamTitle } from "@/models/team";
-import { Medal, Trophy } from "lucide-react";
+import { Medal, Trophy, Shield } from "lucide-react";
 import PageHeader from "@/components/ui/page_header";
+import TeamLogoUpdater from "@/components/admin/team_logo_updater";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -21,6 +23,9 @@ const divisions: Record<string, string> = {
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.has("token");
+
   const res = await fetch(`https://api.mykayak.fuffo.net/team/${id}`, { cache: 'no-store' });
 
   if (!res.ok) {
@@ -32,8 +37,25 @@ const Page = async ({ params }: Props) => {
   return (
     <div className="flex flex-col items-center pt-32 pb-20 px-4">
       <title>{teamData.name}</title>
+      
+      <div className="w-32 h-32 mb-8 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center text-white/50 backdrop-blur-sm overflow-hidden p-4">
+        {teamData.logo ? (
+          <img src={teamData.logo} alt={teamData.name} className="w-full h-full object-contain" />
+        ) : (
+          <Shield className="w-16 h-16" />
+        )}
+      </div>
+
       <PageHeader title={teamData.name} />
-      <p className="text-white/30 font-mono tracking-widest uppercase mb-12">{teamData.team_id}</p>
+      <p className="text-white/30 font-mono tracking-widest uppercase mb-4">{teamData.team_id}</p>
+      
+      {isAdmin && (
+        <div className="mb-12">
+          <TeamLogoUpdater teamId={teamData.team_id} currentLogo={teamData.logo} />
+        </div>
+      )}
+      
+      {!isAdmin && <div className="mb-12" />}
 
       {teamData.titles && teamData.titles.length > 0 ? (
         <div className="w-full max-w-5xl">
