@@ -2,6 +2,7 @@ import { Heat } from '@/models/meet';
 import { formatTime } from '@/utils/formatting';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ViewToggle from '@/components/ui/view_toggle';
+import PageHeader from '@/components/ui/page_header';
 import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink,
   BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
@@ -27,7 +28,7 @@ const Page = async ({ params, searchParams }: Props) => {
   const effectiveMode = requestedMode || (heats[0]?.is_result ? 'results' : 'startlist');
 
   return (
-    <div className="flex flex-col items-center pb-20 px-4">
+    <div className="flex flex-col items-center pt-32 pb-20 px-4">
       {meet_id && (
         <div className="w-full max-w-5xl mt-8 mb-4">
           <Breadcrumb>
@@ -49,9 +50,7 @@ const Page = async ({ params, searchParams }: Props) => {
           </Breadcrumb>
         </div>
       )}
-      <h1 className="text-center mt-8 mb-16 text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">
-        {effectiveMode === 'startlist' ? 'Startlist' : 'Risultati'}
-      </h1>
+      <PageHeader title={effectiveMode === 'startlist' ? 'Startlist' : 'Risultati'} />
 
       <ViewToggle defaultMode={effectiveMode} />
       

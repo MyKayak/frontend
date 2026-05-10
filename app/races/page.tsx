@@ -1,27 +1,42 @@
+import { cookies } from 'next/headers';
 import { Meet } from '@/models/meet';
 import Link from 'next/link';
+import PageHeader from '@/components/ui/page_header';
+import ChampionshipToggle from '@/components/admin/championship_toggle';
 
 const Page = async () => {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.has('token');
+
   const req = await fetch("https://api.mykayak.fuffo.net/meets", { cache: 'no-store' });
   const meets: Meet[] = await req.json();
 
   return (
-    <div className="flex flex-col items-center">
-      <title>Gare</title>
-      <h1 className="text-center mt-8 mb-16 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">Gare</h1>
+    <div className="flex flex-col items-center w-full pt-32 pb-20">
+      <title>Gare - MyKayak</title>
+      <PageHeader title="Gare" />
       <div className="flex flex-col gap-4 w-full max-w-4xl px-4">
         {meets.map((meet) => (
-          <Link key={meet.id} href={`/races/${meet.id}`} className="w-full">
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-white/30 transition-all flex justify-between items-center group">
-              <div>
-                <h3 className="text-2xl font-bold group-hover:text-blue-400 transition-colors">{meet.name}</h3>
-                <p className="text-white/50">{meet.location}</p>
+          <div key={meet.id} className="relative w-full">
+            <Link href={`/races/${meet.id}`} className="w-full block">
+              <div className={`p-6 rounded-xl bg-white/5 border transition-all flex justify-between items-center group
+                ${meet.is_championship
+                  ? 'border-amber-500/40 hover:border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.1)]'
+                  : 'border-white/10 hover:border-white/30'
+                }`}>
+                <div>
+                  <h3 className="text-2xl font-bold group-hover:text-blue-400 transition-colors">{meet.name}</h3>
+                  <p className="text-white/50">{meet.location}</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  {isAdmin && (
+                    <ChampionshipToggle meetId={meet.id} initialValue={meet.is_championship} />
+                  )}
+                  <p className="text-xl font-mono">{meet.date}</p>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-xl font-mono">{meet.date}</p>
-              </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
     </div>

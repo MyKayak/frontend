@@ -1,8 +1,9 @@
 import { AthleteRanking } from "@/models/athlete";
 import { formatTime } from "@/utils/formatting";
 import Link from "next/link";
-import { Timer, TrendingUp } from "lucide-react";
+import { Timer, TrendingUp, Trophy } from "lucide-react";
 import RankingFilters from "@/components/ui/ranking_filters";
+import PageHeader from "@/components/ui/page_header";
 
 interface Props {
   searchParams: Promise<{ 
@@ -31,11 +32,9 @@ const Page = async ({ searchParams }: Props) => {
   const data: AthleteRanking[] = await res.json();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 pb-20">
+    <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
       <title>Ranking</title>
-      <h1 className="text-center mt-8 mb-8 text-8xl md:text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto leading-tight uppercase italic tracking-tighter">
-        Ranking
-      </h1>
+      <PageHeader title="Ranking" />
 
       <RankingFilters />
 

@@ -1,6 +1,7 @@
 import { MedalTableEntry } from "@/models/medal";
 import MedalRow from "@/components/ui/medal_row";
 import MedalTableFilters from "@/components/ui/medal_table_filters";
+import PageHeader from "@/components/ui/page_header";
 
 interface Props {
   searchParams: Promise<{ meet_id?: string; after?: string; before?: string; only_championships?: string }>;
@@ -19,11 +20,9 @@ const Page = async ({ searchParams }: Props) => {
   const data: MedalTableEntry[] = await res.json();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 pb-20">
-      <title>Medagliere</title>
-      <h1 className="text-center mt-8 mb-8 text-8xl md:text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto leading-tight">
-        Medagliere
-      </h1>
+    <div className="max-w-5xl mx-auto px-4 pt-32 pb-20">
+      <title>Medagliere - MyKayak</title>
+      <PageHeader title="Medagliere" />
 
       <MedalTableFilters />
 

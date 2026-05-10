@@ -1,24 +1,23 @@
 "use client"
 
 import { useActionState } from "react";
+import { Lock, KeyRound, Mail, ArrowRight, Loader2 } from "lucide-react";
 import { loginAction } from "./actions";
-import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
+import PageHeader from "@/components/ui/page_header";
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginAction, null);
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center px-4">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-32 pb-20">
       <title>Login - MyKayak</title>
 
       <div className="w-full max-w-md p-8 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-sm">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/20 text-blue-400 mb-4">
-            <Lock className="w-8 h-8" />
+            <KeyRound className="w-8 h-8" />
           </div>
-          <h1 className="text-3xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent italic uppercase tracking-tighter">
-            Area Admin
-          </h1>
+          <PageHeader title="Area Admin" />
           <p className="text-white/40 text-sm mt-2 font-medium">
             Effettua l'accesso per gestire i contenuti
           </p>

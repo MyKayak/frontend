@@ -24,3 +24,52 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Championship toggle */
+.championship-toggle {
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+}
+
+.championship-toggle__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.championship-toggle__track--on {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: rgb(251, 191, 36);
+}
+
+.championship-toggle__track--pending {
+  opacity: 0.6;
+}
+
+.championship-toggle__thumb {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.championship-toggle__track--on .championship-toggle__thumb {
+  background: rgb(245, 158, 11);
+}
+
+.championship-toggle__label {
+  white-space: nowrap;
+}

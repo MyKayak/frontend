@@ -3,6 +3,7 @@ import { ProgressChart } from '@/components/ui/progress_chart';
 import { formatTime } from '@/utils/formatting';
 import { Ruler, Timer, Users } from 'lucide-react';
 import Link from 'next/link';
+import PageHeader from '@/components/ui/page_header';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -23,11 +24,9 @@ const Page = async ({ params }: Props) => {
   const teamRecords = athleteData.personal_records?.filter((r: any) => !r.boat.endsWith('1')) ?? [];
 
   return (
-    <div className="flex flex-col items-center mb-2 px-4">
+    <div className="flex flex-col items-center pt-32 mb-2 px-4">
       <title>{athleteData.name} {athleteData.surname}</title>
-      <h1 className="text-center mt-8 mb-4 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">
-        {athleteData.name} {athleteData.surname}
-      </h1>
+      <PageHeader title={`${athleteData.name} ${athleteData.surname}`} />
       <p className="text-white/50 font-mono mb-1">{athleteData.birth_date}</p>
       {athleteData.team && (
         <Link href={`/team/${athleteData.team.team_id}`} className="text-white/40 hover:text-blue-400 transition-colors font-medium uppercase tracking-widest text-sm mb-2">

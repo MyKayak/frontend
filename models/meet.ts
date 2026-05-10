@@ -3,6 +3,7 @@ export interface Meet {
     name: string;
     location: string;
     date: string;
+    is_championship: boolean;
 }
 
 export interface Race {

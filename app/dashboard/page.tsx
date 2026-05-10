@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LogOut, Settings, Image as ImageIcon, Trophy } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
+import PageHeader from "@/components/ui/page_header";
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
@@ -12,15 +13,13 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 pb-20">
-      <title>Dashboard Admin</title>
-
-      <div className="flex flex-col md:flex-row md:items-end justify-between mt-8 mb-16 gap-6">
+    <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
+      <title>Dashboard Admin - MyKayak</title>
+      
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-16 gap-6">
         <div>
-          <h1 className="text-6xl md:text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit italic uppercase tracking-tighter leading-tight">
-            Dashboard
-          </h1>
-          <p className="text-white/40 font-medium uppercase tracking-widest text-sm mt-2 ml-2">
+          <PageHeader title="Dashboard" />
+          <p className="text-white/40 font-medium uppercase tracking-widest text-sm text-center md:text-left md:ml-2 -mt-8">
             Pannello di Amministrazione
           </p>
         </div>

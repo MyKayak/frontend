@@ -3,6 +3,7 @@ import Link from 'next/link';
 import MedalRow from '@/components/ui/medal_row';
 import { MedalTableEntry } from '@/models/medal';
 import { Trophy } from 'lucide-react';
+import PageHeader from '@/components/ui/page_header';
 import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink,
   BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
@@ -34,7 +35,7 @@ const Page = async ({ params }: Props) => {
   const topTeams = medalData.slice(0, 5);
 
   return (
-    <div className="flex flex-col items-center pb-20 px-4">
+    <div className="flex flex-col items-center pt-32 pb-20 px-4">
       <div className="w-full max-w-6xl mt-8 mb-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -48,9 +49,7 @@ const Page = async ({ params }: Props) => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <h1 className="text-center mt-4 mb-4 text-6xl md:text-8xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-full max-w-6xl mx-auto uppercase tracking-tighter italic leading-tight">
-        {currentMeet?.name || 'Gara'}
-      </h1>
+      <PageHeader title={currentMeet?.name || 'Gara'} />
       <div className="flex flex-col items-center mb-16 gap-2">
         <p className="text-white/50 text-xl font-bold uppercase tracking-widest">{currentMeet?.location}</p>
         <p className="text-white/30 font-mono">{currentMeet?.date}</p>

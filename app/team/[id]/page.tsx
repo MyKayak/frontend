@@ -1,5 +1,6 @@
 import { Team, TeamTitle } from "@/models/team";
 import { Medal, Trophy } from "lucide-react";
+import PageHeader from "@/components/ui/page_header";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -29,11 +30,9 @@ const Page = async ({ params }: Props) => {
   const teamData: Team = await res.json();
 
   return (
-    <div className="flex flex-col items-center pb-20 px-4">
+    <div className="flex flex-col items-center pt-32 pb-20 px-4">
       <title>{teamData.name}</title>
-      <h2 className="text-center mt-8 mb-16 text-8xl md:text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto leading-tight">
-        {teamData.name}
-      </h2>
+      <PageHeader title={teamData.name} />
       <p className="text-white/30 font-mono tracking-widest uppercase mb-12">{teamData.team_id}</p>
 
       {teamData.titles && teamData.titles.length > 0 ? (

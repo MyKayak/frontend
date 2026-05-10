@@ -2,6 +2,8 @@ import React from 'react'
 import TeamTile from '@/components/ui/team_tile';
 import SearchInput from '@/components/ui/search_input';
 import { TeamPreview } from '@/models/team';
+import PageHeader from '@/components/ui/page_header';
+import LoadMoreTeams from '@/components/ui/load_more_teams';
 
 interface Props {
   searchParams: Promise<{ q?: string }>;
@@ -17,9 +19,9 @@ const Page = async ({ searchParams }: Props) => {
   const teams: TeamPreview[] = await req.json();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pb-20">
-      <title>Società</title>
-      <h1 className="text-center mt-8 mb-8 text-9xl font-black bg-linear-0 from-blue-700 to-blue-200 bg-clip-text text-transparent w-fit mx-auto">Società</h1>
+    <div className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+      <title>Società - MyKayak</title>
+      <PageHeader title="Società" />
 
       <SearchInput />
 
@@ -32,6 +34,9 @@ const Page = async ({ searchParams }: Props) => {
           {teams.map((team: TeamPreview) => (
             <TeamTile key={team.team_id} team={team} />
           ))}
+          {teams.length === 40 && (
+            <LoadMoreTeams initialOffset={40} query={query} />
+          )}
         </div>
       )}
     </div>
