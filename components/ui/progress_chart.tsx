@@ -25,7 +25,6 @@ interface ProgressChartProps{
 }
 
 export function ProgressChart(props: ProgressChartProps) {
-  // Deduplicate same-day entries by keeping only the best time (min ms)
   const processedData = props.entries.reduce((acc: any[], current) => {
     const existing = acc.find(item => item.date === current.date);
     if (existing) {

@@ -3,6 +3,11 @@ import SearchInput from '@/components/ui/search_input';
 import { AthletePreview } from '@/models/athlete';
 import PageHeader from '@/components/ui/page_header';
 import LoadMoreAthletes from '@/components/ui/load_more_athletes';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Atleti - MyKayak",
+};
 
 interface Props {
   searchParams: Promise<{ q?: string }>;
@@ -19,7 +24,6 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-32 pb-20">
-      <title>Atleti - MyKayak</title>
       <PageHeader title="Atleti" />
 
       <SearchInput />
@@ -30,8 +34,8 @@ const Page = async ({ searchParams }: Props) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {athletes.map((athlete: AthletePreview) => (
-            <AthleteTile key={athlete.athlete_id} athlete={athlete} />
+          {athletes.map((athlete: AthletePreview, index: number) => (
+            <AthleteTile key={athlete.athlete_id} athlete={athlete} index={index} />
           ))}
           {athletes.length === 40 && (
             <LoadMoreAthletes initialOffset={40} query={query} />

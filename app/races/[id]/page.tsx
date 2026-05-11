@@ -16,7 +16,6 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const { id } = await params;
   
-  // Fetch races, medal table, and all meets in parallel to find the meet name
   const [racesRes, medalRes, meetsRes] = await Promise.all([
     fetch(`https://api.mykayak.fuffo.net/races/${id}`, { cache: 'no-store' }),
     fetch(`https://api.mykayak.fuffo.net/medal_table?meet_id=${id}`, { cache: 'no-store' }),

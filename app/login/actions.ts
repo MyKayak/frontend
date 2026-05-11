@@ -29,7 +29,7 @@ export async function loginAction(prevState: any, formData: FormData) {
         secure: true,
         path: "/",
         sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 30 // 30 days
+        maxAge: 60 * 60 * 24 * 30
       });
     } else {
       return { error: "Credenziali non valide" };
@@ -38,7 +38,6 @@ export async function loginAction(prevState: any, formData: FormData) {
     return { error: "Errore di connessione" };
   }
 
-  // Redirect must be outside try/catch
   redirect("/dashboard");
 }
 

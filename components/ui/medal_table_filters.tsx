@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 const SEASONS = Array.from(
   { length: currentYear - FIRST_SEASON + 1 },
   (_, i) => FIRST_SEASON + i
-).reverse(); // most recent first
+).reverse();
 
 function seasonToParams(year: number) {
   return { after: `${year}-01-01`, before: `${year + 1}-01-01` };
@@ -67,7 +67,6 @@ export default function MedalTableFilters() {
   return (
     <div className={`flex flex-wrap justify-center gap-6 mb-12 transition-opacity duration-300 ${isPending ? "opacity-50" : "opacity-100"}`}>
 
-      {/* Season dropdown */}
       <div className="flex flex-col gap-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Stagione</span>
         <div className="flex p-1 bg-white/5 border border-white/10 rounded-xl">
@@ -87,7 +86,6 @@ export default function MedalTableFilters() {
         </div>
       </div>
 
-      {/* Championships toggle */}
       <div className="flex flex-col gap-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Tipo gara</span>
         <div className="flex p-1 bg-white/5 border border-white/10 rounded-xl">
@@ -115,7 +113,6 @@ export default function MedalTableFilters() {
         </div>
       </div>
 
-      {/* Reset — only when a filter is active */}
       {hasFilters && (
         <div className="flex flex-col gap-2">
           <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2 opacity-0 select-none">_</span>

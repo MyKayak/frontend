@@ -113,7 +113,6 @@ export default function RankingFilters() {
         ]} 
       />
 
-      {/* Season dropdown */}
       <div className="flex flex-col gap-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Stagione</span>
         <div className="flex p-1 bg-white/5 border border-white/10 rounded-xl">

@@ -3,6 +3,12 @@ import { Meet } from '@/models/meet';
 import Link from 'next/link';
 import PageHeader from '@/components/ui/page_header';
 import ChampionshipToggle from '@/components/admin/championship_toggle';
+import { Metadata } from 'next';
+import FadeIn from '@/components/ui/fade_in';
+
+export const metadata: Metadata = {
+  title: "Gare - MyKayak",
+};
 
 const Page = async () => {
   const cookieStore = await cookies();
@@ -13,11 +19,10 @@ const Page = async () => {
 
   return (
     <div className="flex flex-col items-center w-full pt-32 pb-20">
-      <title>Gare - MyKayak</title>
       <PageHeader title="Gare" />
       <div className="flex flex-col gap-4 w-full max-w-4xl px-4">
-        {meets.map((meet) => (
-          <div key={meet.id} className="relative w-full">
+        {meets.map((meet, index) => (
+          <FadeIn key={meet.id} className="relative w-full" index={index}>
             <Link href={`/races/${meet.id}`} className="w-full block">
               <div className={`p-6 rounded-xl bg-white/5 border transition-all flex justify-between items-center group
                 ${meet.is_championship
@@ -36,7 +41,7 @@ const Page = async () => {
                 </div>
               </div>
             </Link>
-          </div>
+          </FadeIn>
         ))}
       </div>
     </div>

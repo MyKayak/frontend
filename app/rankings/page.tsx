@@ -4,6 +4,11 @@ import Link from "next/link";
 import { Timer, TrendingUp, Trophy } from "lucide-react";
 import RankingFilters from "@/components/ui/ranking_filters";
 import PageHeader from "@/components/ui/page_header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Ranking - MyKayak",
+};
 
 interface Props {
   searchParams: Promise<{ 
@@ -33,7 +38,6 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
-      <title>Ranking</title>
       <PageHeader title="Ranking" />
 
       <RankingFilters />

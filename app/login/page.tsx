@@ -10,7 +10,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-32 pb-20">
-      <title>Login - MyKayak</title>
 
       <div className="w-full max-w-md p-8 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-sm">
         <div className="text-center mb-8">

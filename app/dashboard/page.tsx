@@ -3,6 +3,11 @@ import { redirect } from "next/navigation";
 import { LogOut, Settings, Image as ImageIcon, Trophy } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
 import PageHeader from "@/components/ui/page_header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard Admin - MyKayak",
+};
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
@@ -14,8 +19,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
-      <title>Dashboard Admin - MyKayak</title>
-
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-16 gap-6">
         <div>
           <PageHeader title="Dashboard" />

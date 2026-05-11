@@ -4,6 +4,11 @@ import SearchInput from '@/components/ui/search_input';
 import { TeamPreview } from '@/models/team';
 import PageHeader from '@/components/ui/page_header';
 import LoadMoreTeams from '@/components/ui/load_more_teams';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Società - MyKayak",
+};
 
 interface Props {
   searchParams: Promise<{ q?: string }>;
@@ -12,15 +17,14 @@ interface Props {
 const Page = async ({ searchParams }: Props) => {
   const query = (await searchParams).q || '';
   const url = query 
-    ? `https://api.mykayak.fuffo.net/teams?hint=${encodeURIComponent(query)}`
-    : `https://api.mykayak.fuffo.net/teams`;
+    ? `https://api.mykayak.fuffo.net/teams?hint=${encodeURIComponent(query)}&limit=100`
+    : `https://api.mykayak.fuffo.net/teams?limit=40&offset=0`;
 
   const req = await fetch(url);
   const teams: TeamPreview[] = await req.json();
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-32 pb-20">
-      <title>Società - MyKayak</title>
       <PageHeader title="Società" />
 
       <SearchInput />
@@ -31,8 +35,8 @@ const Page = async ({ searchParams }: Props) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {teams.map((team: TeamPreview) => (
-            <TeamTile key={team.team_id} team={team} />
+          {teams.map((team: TeamPreview, index: number) => (
+            <TeamTile key={team.team_id} team={team} index={index} />
           ))}
           {teams.length === 40 && (
             <LoadMoreTeams initialOffset={40} query={query} />

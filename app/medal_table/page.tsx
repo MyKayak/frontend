@@ -3,6 +3,12 @@ import MedalRow from "@/components/ui/medal_row";
 import MedalTableFilters from "@/components/ui/medal_table_filters";
 import PageHeader from "@/components/ui/page_header";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Medagliere - MyKayak",
+};
+
 interface Props {
   searchParams: Promise<{ meet_id?: string; after?: string; before?: string; only_championships?: string }>;
 }
@@ -21,7 +27,6 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 pt-32 pb-20">
-      <title>Medagliere - MyKayak</title>
       <PageHeader title="Medagliere" />
 
       <MedalTableFilters />

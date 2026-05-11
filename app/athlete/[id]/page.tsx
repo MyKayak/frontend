@@ -4,9 +4,18 @@ import { formatTime } from '@/utils/formatting';
 import { Ruler, Timer, Users } from 'lucide-react';
 import Link from 'next/link';
 import PageHeader from '@/components/ui/page_header';
+import { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const res = await fetch(`https://api.mykayak.fuffo.net/athlete/${id}`);
+  if (!res.ok) return { title: "Atleta non trovato" };
+  const athleteData = await res.json();
+  return { title: `${athleteData.name} ${athleteData.surname} - MyKayak` };
 }
 
 const Page = async ({ params }: Props) => {
@@ -19,13 +28,11 @@ const Page = async ({ params }: Props) => {
 
   const athleteData = await res.json();
 
-  // Group personal records by boat type so single/team boats are shown in separate sections
   const soloRecords = athleteData.personal_records?.filter((r: any) => r.boat.endsWith('1')) ?? [];
   const teamRecords = athleteData.personal_records?.filter((r: any) => !r.boat.endsWith('1')) ?? [];
 
   return (
     <div className="flex flex-col items-center pt-32 mb-2 px-4">
-      <title>{athleteData.name} {athleteData.surname}</title>
       <PageHeader title={`${athleteData.name} ${athleteData.surname}`} />
       <p className="text-white/50 font-mono mb-1">{athleteData.birth_date}</p>
       {athleteData.team && (
