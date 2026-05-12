@@ -23,6 +23,11 @@ export async function loginAction(prevState: any, formData: FormData) {
 
     if (res.ok) {
       const data = await res.json();
+      
+      if (!data.token) {
+        return { error: "Errore interno: token non generato" };
+      }
+
       const cookieStore = await cookies();
       cookieStore.set("token", data.token, {
         httpOnly: true,
@@ -31,14 +36,17 @@ export async function loginAction(prevState: any, formData: FormData) {
         sameSite: "lax",
         maxAge: 60 * 60 * 24 * 30
       });
+      
+      redirect("/dashboard");
     } else {
       return { error: "Credenziali non valide" };
     }
   } catch (e) {
+    if (e instanceof Error && e.message.includes("NEXT_REDIRECT")) {
+      throw e;
+    }
     return { error: "Errore di connessione" };
   }
-
-  redirect("/dashboard");
 }
 
 export async function logoutAction() {
